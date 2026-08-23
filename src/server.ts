@@ -44,8 +44,21 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+// Dependency-free keep-alive target, handled before the request ever
+// reaches the TanStack Start server entry — so a ping never triggers SSR,
+// route matching, or any downstream work. Hit this from an external pinger
+// (e.g. every 10 minutes) to stop Render's free tier from spinning the
+// instance down.
+function isKeepAliveRequest(request: Request): boolean {
+  return new URL(request.url).pathname === "/health";
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    if (isKeepAliveRequest(request)) {
+      return new Response("ok", { status: 200 });
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
