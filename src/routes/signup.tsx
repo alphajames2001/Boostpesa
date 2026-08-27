@@ -12,17 +12,17 @@ import { isValidKenyanLocal } from "@/lib/utils";
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Create account — dotPesa" },
+      { title: "Create account — RushPesa" },
       {
         name: "description",
         content:
-          "Open a dotPesa account in seconds and start playing crash with M-Pesa deposits.",
+          "Open a RushPesa account in seconds and start playing crash with M-Pesa deposits.",
       },
-      { property: "og:title", content: "Create account — dotPesa" },
+      { property: "og:title", content: "Create account — RushPesa" },
       {
         property: "og:description",
         content:
-          "Open a dotPesa account in seconds and start playing crash with M-Pesa deposits.",
+          "Open a RushPesa account in seconds and start playing crash with M-Pesa deposits.",
       },
     ],
   }),
@@ -45,9 +45,6 @@ function SignupPage() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  // Local Kenyan subscriber number only — the 254 country code is fixed in
-  // the UI so people don't have to type it. Safaricom/other mobile numbers
-  // are 9 digits after the leading 0, starting with 7 (07...) or 1 (01...).
   const setPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, 9);
     setForm((f) => ({ ...f, phone: digits }));
@@ -58,7 +55,6 @@ function SignupPage() {
     e.preventDefault();
     setError(null);
 
-    // Validation
     if (form.username.length < 3) {
       return setError("Username must be at least 3 characters");
     }
@@ -105,7 +101,7 @@ function SignupPage() {
       footer={
         <>
           Already registered?{" "}
-          <Link to="/login" className="font-semibold text-primary">
+          <Link to="/login" className="font-semibold text-primary hover:underline">
             Log in
           </Link>
         </>
@@ -113,12 +109,12 @@ function SignupPage() {
     >
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor="username" className="text-muted-foreground">Username</Label>
           <Input
             id="username"
             value={form.username}
             onChange={set("username")}
-            className="h-12 bg-elevated"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
             placeholder="Choose a unique username"
             autoComplete="username"
           />
@@ -128,21 +124,21 @@ function SignupPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email address</Label>
+          <Label htmlFor="email" className="text-muted-foreground">Email address</Label>
           <Input
             id="email"
             type="email"
             value={form.email}
             onChange={set("email")}
-            className="h-12 bg-elevated"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
             placeholder="your@email.com"
             autoComplete="email"
           />
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="phone">M-Pesa phone number</Label>
-          <div className="flex h-12 items-stretch overflow-hidden rounded-md bg-elevated">
+          <Label htmlFor="phone" className="text-muted-foreground">M-Pesa phone number</Label>
+          <div className="flex h-12 items-stretch overflow-hidden rounded-md bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
             <span className="flex items-center border-r border-border/50 px-3 text-sm font-semibold text-muted-foreground">
               +254
             </span>
@@ -151,7 +147,7 @@ function SignupPage() {
               inputMode="numeric"
               value={form.phone}
               onChange={setPhone}
-              className="h-full flex-1 rounded-none border-0 bg-transparent"
+              className="h-full flex-1 rounded-none border-0 bg-transparent focus:ring-0"
               placeholder="7XXXXXXXX or 1XXXXXXXX"
               autoComplete="tel-national"
             />
@@ -163,25 +159,25 @@ function SignupPage() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-muted-foreground">Password</Label>
             <Input
               id="password"
               type="password"
               value={form.password}
               onChange={set("password")}
-              className="h-12 bg-elevated"
+              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
               autoComplete="new-password"
               placeholder="Min 8 characters"
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="confirm">Confirm password</Label>
+            <Label htmlFor="confirm" className="text-muted-foreground">Confirm password</Label>
             <Input
               id="confirm"
               type="password"
               value={form.confirm}
               onChange={set("confirm")}
-              className="h-12 bg-elevated"
+              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
               autoComplete="new-password"
               placeholder="Confirm your password"
             />
@@ -192,7 +188,7 @@ function SignupPage() {
           <Checkbox
             checked={terms}
             onCheckedChange={(v) => setTerms(v === true)}
-            className="mt-0.5"
+            className="mt-0.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
           />
           <span>
             I am 18 or older and accept the Terms &amp; Conditions and Privacy Policy.
@@ -204,12 +200,12 @@ function SignupPage() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-12 w-full font-display font-extrabold glow-primary"
+          className="h-12 w-full font-display font-extrabold bg-primary text-primary-foreground hover:bg-primary/90 glow-primary"
         >
           {loading ? "Creating…" : "Create account"}
         </Button>
 
-        <p className="rounded-lg bg-elevated p-3 text-xs text-muted-foreground">
+        <p className="rounded-lg bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
           By creating an account, you get:
           <br />
           <span className="text-[10px] text-muted-foreground/70">

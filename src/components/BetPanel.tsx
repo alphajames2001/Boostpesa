@@ -43,7 +43,6 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
   const autoNum = Number(auto);
   const autoError = autoOn && (!Number.isFinite(autoNum) || autoNum < 1.01) ? "Min 1.01x" : null;
 
-  // Queued bet becomes active when the round starts.
   useEffect(() => {
     if (phase === "running" && status === "queued") {
       setStatus("active");
@@ -56,18 +55,15 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
     if (phase === "waiting" && status === "settled") setStatus("idle");
   }, [phase, multiplier, index, status, roundId]);
 
-  // Auto-cashout
   useEffect(() => {
     if (status === "active" && autoOn && !autoError && multiplier >= autoNum) {
       doCashout(Math.min(multiplier, autoNum));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [multiplier]);
 
   async function doCashout(at: number) {
     if (isSubmitting || betBox.current === null) return;
 
-    // Guest path: settle entirely client-side against the real multiplier
     if (isGuest) {
       setIsSubmitting(true);
       try {
@@ -83,9 +79,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
 
     setIsSubmitting(true);
     try {
-      // Cashout uses box, not betId
       const result = await gameApi.cashout(betBox.current, effectiveMode);
-
       if (result.ok) {
         setStatus("settled");
         toast.success(`Cashed out @ ${result.multiplier.toFixed(2)}x — KES ${formatKES(result.payout)}`);
@@ -105,7 +99,6 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
 
     setIsSubmitting(true);
     try {
-      // Guest path: use local demo balance
       if (isGuest) {
         if (stakeNum > mockState.balances.demo) {
           toast.error("Insufficient demo balance");
@@ -134,7 +127,6 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
     }
   }
 
-  // Cancel bet is not supported by the backend - this just clears local state for guests
   async function cancelBet() {
     if (isGuest) {
       applyBalanceDelta("demo", placedStake);
@@ -143,8 +135,6 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
       toast("Bet cancelled");
       return;
     }
-
-    // No cancel endpoint exists - just reset local state
     setStatus("idle");
     betBox.current = null;
     toast("Bet reset");
@@ -183,17 +173,17 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
         </span>
         <div className="flex items-center gap-1.5">
           {isGuest && (
-            <span className="rounded-md bg-warning/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-warning">
+            <span className="rounded-md bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
               Guest
             </span>
           )}
           {!isGuest && effectiveMode === "demo" && (
-            <span className="rounded-md bg-warning/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-warning">
+            <span className="rounded-md bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
               Demo
             </span>
           )}
           {!isGuest && effectiveMode === "real" && (
-            <span className="rounded-md bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+            <span className="rounded-md bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
               Real
             </span>
           )}
@@ -212,7 +202,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
             type="button"
             disabled={!canBet}
             onClick={() => setStake(String(q))}
-            className="rounded-lg bg-elevated py-1.5 font-display text-sm font-bold tabular-nums transition-colors hover:bg-accent disabled:opacity-40 lg:py-1"
+            className="rounded-lg bg-elevated py-1.5 font-display text-sm font-bold tabular-nums transition-colors hover:bg-primary/10 hover:text-primary disabled:opacity-40 lg:py-1"
           >
             {q}
           </button>
@@ -229,7 +219,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
           value={stake}
           disabled={!canBet}
           onChange={(e) => setStake(e.target.value.replace(/[^\d.]/g, ""))}
-          className="h-9 bg-elevated font-display text-sm font-bold tabular-nums lg:h-8"
+          className="h-9 bg-elevated font-display text-sm font-bold tabular-nums focus:border-primary focus:ring-primary lg:h-8"
         />
         {stakeError && <p className="text-xs text-destructive">{stakeError}</p>}
       </div>
@@ -244,7 +234,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
             checked={autoOn}
             onCheckedChange={setAutoOn}
             disabled={!canBet}
-            className="scale-75"
+            className="scale-75 data-[state=checked]:bg-primary"
           />
         </div>
         {autoOn ? (
@@ -254,7 +244,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
               value={auto}
               disabled={!canBet}
               onChange={(e) => setAuto(e.target.value.replace(/[^\d.]/g, ""))}
-              className="h-8 bg-card font-display text-sm font-bold tabular-nums"
+              className="h-8 bg-card font-display text-sm font-bold tabular-nums focus:border-primary focus:ring-primary"
             />
             {autoError && <p className="text-xs text-destructive">{autoError}</p>}
           </>
@@ -269,10 +259,10 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
         onClick={action.onClick}
         disabled={action.disabled}
         className={cn(
-          "h-11 w-full rounded-xl font-display text-sm font-extrabold tabular-nums lg:h-10",
+          "h-11 w-full rounded-xl font-display text-sm font-extrabold tabular-nums transition-all lg:h-10",
           action.variant === "cashout" && "bg-warning text-warning-foreground hover:bg-warning/90",
           action.variant === "cancel" && "bg-elevated text-foreground hover:bg-accent",
-          action.variant === "primary" && "glow-primary",
+          action.variant === "primary" && "bg-primary text-primary-foreground hover:bg-primary/90 glow-primary",
         )}
       >
         {action.label}

@@ -10,17 +10,17 @@ import { authApi } from "@/lib/mockApi";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Log in — dotPesa" },
+      { title: "Log in — RushPesa" },
       {
         name: "description",
         content:
-          "Sign in to your dotPesa account to play crash and manage your M-Pesa wallet.",
+          "Sign in to your RushPesa account to play crash and manage your M-Pesa wallet.",
       },
-      { property: "og:title", content: "Log in — dotPesa" },
+      { property: "og:title", content: "Log in — RushPesa" },
       {
         property: "og:description",
         content:
-          "Sign in to your dotPesa account to play crash and manage your M-Pesa wallet.",
+          "Sign in to your RushPesa account to play crash and manage your M-Pesa wallet.",
       },
     ],
   }),
@@ -63,8 +63,8 @@ function LoginPage() {
       subtitle="Log in with your email address."
       footer={
         <>
-          New to dotPesa?{" "}
-          <Link to="/signup" className="font-semibold text-primary">
+          New to RushPesa?{" "}
+          <Link to="/signup" className="font-semibold text-primary hover:underline">
             Create an account
           </Link>
         </>
@@ -72,21 +72,20 @@ function LoginPage() {
     >
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email address</Label>
+          <Label htmlFor="email" className="text-muted-foreground">Email address</Label>
           <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="h-12 bg-elevated"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
             autoComplete="email"
             placeholder="your@email.com"
           />
         </div>
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            {/* Password reset disabled - OTP not available */}
+            <Label htmlFor="password" className="text-muted-foreground">Password</Label>
             <span className="text-xs text-muted-foreground opacity-50 cursor-not-allowed">
               Forgot password?
             </span>
@@ -96,7 +95,7 @@ function LoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="h-12 bg-elevated"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
             autoComplete="current-password"
             placeholder="••••••••"
           />
@@ -105,13 +104,13 @@ function LoginPage() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-12 w-full font-display font-extrabold glow-primary"
+          className="h-12 w-full font-display font-extrabold bg-primary text-primary-foreground hover:bg-primary/90 glow-primary"
         >
           {loading ? "Signing in…" : "Log in"}
         </Button>
-        <p className="rounded-lg bg-elevated p-3 text-xs text-muted-foreground">
-          Demo accounts: <span className="font-semibold text-foreground">user1 … user200</span>, shared
-          password <span className="font-semibold text-foreground">demo1234</span>.
+        <p className="rounded-lg bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
+          Demo accounts: <span className="font-semibold text-primary">user1 … user200</span>, shared
+          password <span className="font-semibold text-primary">demo1234</span>.
           <br />
           <span className="text-[10px] text-muted-foreground/70">
             Or sign up with your own email and username.
@@ -142,7 +141,7 @@ export function AuthShell({
           </Link>
         </div>
         <div className="panel-surface p-6 sm:p-8">
-          <h1 className="font-display text-2xl font-extrabold">{title}</h1>
+          <h1 className="font-display text-2xl font-extrabold text-primary">{title}</h1>
           <p className="mb-6 mt-1 text-sm text-muted-foreground">{subtitle}</p>
           {children}
         </div>

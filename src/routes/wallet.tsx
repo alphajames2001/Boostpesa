@@ -21,13 +21,13 @@ import { cn, isValidKenyanLocal, localPart } from "@/lib/utils";
 export const Route = createFileRoute("/wallet")({
   head: () => ({
     meta: [
-      { title: "Wallet — dotPesa M-Pesa deposits & withdrawals" },
+      { title: "Wallet — rushpesa M-Pesa deposits & withdrawals" },
       {
         name: "description",
         content:
-          "Top up via M-Pesa STK push, withdraw to your phone, and review your dotPesa transaction history.",
+          "Top up via M-Pesa STK push, withdraw to your phone, and review your rushpesa transaction history.",
       },
-      { property: "og:title", content: "Wallet — dotPesa M-Pesa deposits & withdrawals" },
+      { property: "og:title", content: "Wallet — rushpesa M-Pesa deposits & withdrawals" },
       {
         property: "og:description",
         content: "Top up via M-Pesa STK push, withdraw to your phone, and review your transaction history.",
@@ -239,7 +239,7 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
         {invalid && amount !== "" && <p className="text-xs text-destructive">Amount outside deposit limits</p>}
       </div>
       <div className="grid grid-cols-4 gap-2">
-        {[100, 500, 1000, 5000].map((q) => (
+        {[200, 500, 1000, 5000].map((q) => (
           <button key={q} onClick={() => setAmount(String(q))} disabled={busy} className="rounded-lg bg-elevated py-2 text-sm font-bold tabular-nums hover:bg-accent disabled:opacity-40">
             {q}
           </button>

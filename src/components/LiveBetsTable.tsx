@@ -16,7 +16,7 @@ export function LiveBetsTable({
   history,
 }: {
   liveBets: LiveBet[];
-  history: number[]; // crash points, most recent first
+  history: number[];
 }) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -32,10 +32,10 @@ export function LiveBetsTable({
     <div className="panel-surface flex h-full min-h-0 flex-col p-3 lg:p-2.5">
       <Tabs defaultValue="live" className="flex min-h-0 flex-1 flex-col">
         <TabsList className="w-full bg-elevated">
-          <TabsTrigger value="live" className="flex-1">
+          <TabsTrigger value="live" className="flex-1 data-[state=active]:text-primary">
             Live
           </TabsTrigger>
-          <TabsTrigger value="history" className="flex-1">
+          <TabsTrigger value="history" className="flex-1 data-[state=active]:text-primary">
             History
           </TabsTrigger>
         </TabsList>
@@ -46,7 +46,7 @@ export function LiveBetsTable({
             <span className="text-right">Box</span>
             <span className="w-20 text-right">Amount</span>
           </div>
-          <div className="max-h-[280px] space-y-1 overflow-y-auto pr-1 lg:max-h-none lg:min-h-0 lg:flex-1">
+          <div className="max-h-[280px] space-y-1 overflow-y-auto pr-1 lg:max-h-none lg:min-h-0 lg:flex-1 no-scrollbar">
             {liveBets.length === 0 ? (
               <p className="py-8 text-center text-sm text-muted-foreground">No live bets</p>
             ) : (
@@ -55,12 +55,16 @@ export function LiveBetsTable({
                   key={b.key}
                   className={cn(
                     "grid grid-cols-[1fr_auto_auto] items-center gap-2 rounded-lg px-2 py-1.5 text-sm",
-                    b.cashedOutAt !== null ? "bg-primary/10" : "bg-elevated/60",
-                    b.self && "ring-1 ring-primary/50",
+                    b.cashedOutAt !== null ? "bg-primary/10 border border-primary/20" : "bg-elevated/60",
+                    b.self && "ring-1 ring-primary",
                   )}
                 >
                   <span className="truncate text-muted-foreground">
-                    {b.self ? "You" : b.userId.slice(0, 8)}
+                    {b.self ? (
+                      <span className="text-primary font-bold">You</span>
+                    ) : (
+                      b.userId.slice(0, 8)
+                    )}
                   </span>
                   <span className="text-right tabular-nums">Box {b.box}</span>
                   <span className="w-20 text-right tabular-nums">
@@ -87,9 +91,9 @@ export function LiveBetsTable({
               setPage(1);
             }}
             placeholder="Search multiplier"
-            className="mb-2 h-8 bg-elevated text-sm"
+            className="mb-2 h-8 bg-elevated text-sm focus:border-primary focus:ring-primary"
           />
-          <div className="space-y-0.5">
+          <div className="space-y-0.5 max-h-[280px] overflow-y-auto lg:max-h-none">
             {current.map((crashPoint, idx) => (
               <div
                 key={idx}

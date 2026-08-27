@@ -9,11 +9,6 @@ interface Props {
   roundId: number;
 }
 
-/**
- * Responsive crash curve. Draws a rising line + particle trail (no aviation
- * iconography). The canvas is sized from its container via ResizeObserver so
- * it scales proportionally with zero layout shift and no scrollbars.
- */
 export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -47,18 +42,18 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
     ro.observe(wrap);
     resize();
 
-    const css = getComputedStyle(document.documentElement);
-    const green = css.getPropertyValue("--primary").trim() || "oklch(0.82 0.26 143)";
-    const red = css.getPropertyValue("--destructive").trim() || "oklch(0.62 0.23 26)";
-    const grid = "oklch(0.32 0 0)";
+    // Yellow primary, red crash
+    const yellow = "#FFFF00";
+    const red = "#ff4d4d";
+    const grid = "rgba(255,255,255,0.06)";
 
     const draw = () => {
       const { phase: p, multiplier: m } = stateRef.current;
       ctx.clearRect(0, 0, w, h);
 
-      // grid
+      // Grid
       ctx.strokeStyle = grid;
-      ctx.globalAlpha = 0.35;
+      ctx.globalAlpha = 0.6;
       ctx.lineWidth = 1;
       for (let i = 1; i < 6; i++) {
         const y = (h / 6) * i;
@@ -81,7 +76,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         return;
       }
 
-      const color = p === "crashed" ? red : green;
+      const color = p === "crashed" ? red : yellow;
       const padX = 16;
       const padY = 18;
       const progress = Math.min(1, Math.log(Math.max(1, m)) / Math.log(12));
@@ -94,7 +89,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         return [x, y] as const;
       };
 
-      // area fill
+      // Area fill with glow
       ctx.beginPath();
       ctx.moveTo(padX, h - padY);
       for (let t = 0; t <= 1.0001; t += 0.02) {
@@ -103,12 +98,12 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
       }
       ctx.lineTo(endX, h - padY);
       ctx.closePath();
-      ctx.globalAlpha = 0.12;
+      ctx.globalAlpha = 0.15;
       ctx.fillStyle = color;
       ctx.fill();
       ctx.globalAlpha = 1;
 
-      // line
+      // Main line with glow
       ctx.beginPath();
       for (let t = 0; t <= 1.0001; t += 0.02) {
         const [x, y] = pointAt(t);
@@ -119,28 +114,31 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
       ctx.lineWidth = 3.5;
       ctx.lineCap = "round";
       ctx.shadowColor = color;
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur = 30;
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      // particle trail at head
+      // Particle trail
       const [hx, hy] = pointAt(1);
-      for (let i = 0; i < 8; i++) {
-        const t = 1 - i * 0.035;
+      for (let i = 0; i < 10; i++) {
+        const t = 1 - i * 0.03;
         if (t < 0) break;
         const [px, py] = pointAt(t);
         ctx.beginPath();
-        ctx.globalAlpha = (1 - i / 8) * 0.5;
+        ctx.globalAlpha = (1 - i / 10) * 0.6;
         ctx.fillStyle = color;
-        ctx.arc(px + (Math.random() - 0.5) * 4, py + (Math.random() - 0.5) * 4, 2.2, 0, Math.PI * 2);
+        const size = 2 + (1 - i / 10) * 3;
+        ctx.arc(px + (Math.random() - 0.5) * 3, py + (Math.random() - 0.5) * 3, size, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
+      
+      // Head dot
       ctx.beginPath();
       ctx.fillStyle = color;
       ctx.shadowColor = color;
-      ctx.shadowBlur = 20;
-      ctx.arc(hx, hy, 6, 0, Math.PI * 2);
+      ctx.shadowBlur = 40;
+      ctx.arc(hx, hy, 7, 0, Math.PI * 2);
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -170,7 +168,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
               Next round in
             </p>
-            <p className="font-display text-5xl font-extrabold tabular-nums sm:text-6xl lg:text-3xl xl:text-4xl">
+            <p className="font-display text-5xl font-extrabold tabular-nums text-primary sm:text-6xl lg:text-3xl xl:text-4xl">
               {countdown.toFixed(1)}s
             </p>
             <p className="mt-2 text-xs text-muted-foreground lg:mt-1">Round #{roundId}</p>

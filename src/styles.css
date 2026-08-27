@@ -5,8 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * dotPesa design system — dark, neon-green crash betting UI.
- * All colors are oklch tokens. Never hardcode colors in components.
+ * RushPesa — bold yellow crash betting UI.
+ * Primary: #FFFF00 (yellow)
+ * Fonts: Outfit (display) + Inter (body)
  */
 
 @theme inline {
@@ -15,8 +16,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -55,73 +55,72 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-display:
-    "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-sans:
-    "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  
+  --font-display: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  
   --animate-crash-flash: crash-flash 0.5s ease-out;
   --animate-rise: rise 0.35s ease-out;
+  --animate-pulse-slow: pulse-slow 2s ease-in-out infinite;
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 1rem;
 
-  --background: oklch(0.16 0 0); /* #0e0e0e */
-  --foreground: oklch(0.97 0 0);
+  --background: #0b0b0b;
+  --foreground: #f0f0f0;
 
-  --card: oklch(0.21 0 0); /* #1a1a1a */
-  --card-foreground: oklch(0.97 0 0);
-  --panel: oklch(0.21 0 0);
-  --panel-foreground: oklch(0.97 0 0);
-  --elevated: oklch(0.26 0 0); /* #232323 */
+  --card: #161616;
+  --card-foreground: #f0f0f0;
+  --panel: #161616;
+  --panel-foreground: #f0f0f0;
+  --elevated: #222222;
 
-  --popover: oklch(0.21 0 0);
-  --popover-foreground: oklch(0.97 0 0);
+  --popover: #1a1a1a;
+  --popover-foreground: #f0f0f0;
 
-  --primary: oklch(0.82 0.26 143); /* neon green #00e701 */
-  --primary-foreground: oklch(0.16 0 0);
+  /* PRIMARY: #FFFF00 (yellow) */
+  --primary: #FFFF00;
+  --primary-foreground: #0b0b0b;
 
-  --secondary: oklch(0.26 0 0);
-  --secondary-foreground: oklch(0.97 0 0);
+  --secondary: #2a2a2a;
+  --secondary-foreground: #f0f0f0;
 
-  --muted: oklch(0.26 0 0);
-  --muted-foreground: oklch(0.68 0.005 260);
+  --muted: #2a2a2a;
+  --muted-foreground: #999999;
 
-  --accent: oklch(0.3 0 0);
-  --accent-foreground: oklch(0.97 0 0);
+  --accent: #333333;
+  --accent-foreground: #f0f0f0;
 
-  --destructive: oklch(0.62 0.23 26);
-  --destructive-foreground: oklch(0.98 0 0);
+  --destructive: #ff4d4d;
+  --destructive-foreground: #ffffff;
 
-  --warning: oklch(0.82 0.17 85);
-  --warning-foreground: oklch(0.16 0 0);
+  --warning: #ffaa00;
+  --warning-foreground: #0b0b0b;
 
-  --border: oklch(0.3 0 0);
-  --input: oklch(0.3 0 0);
-  --ring: oklch(0.82 0.26 143);
+  --border: #2c2c2c;
+  --input: #2c2c2c;
+  --ring: #FFFF00;
 
-  --chart-1: oklch(0.82 0.26 143);
-  --chart-2: oklch(0.82 0.17 85);
-  --chart-3: oklch(0.62 0.23 26);
-  --chart-4: oklch(0.7 0.13 200);
-  --chart-5: oklch(0.75 0.15 320);
+  --chart-1: #FFFF00;
+  --chart-2: #ffaa00;
+  --chart-3: #ff4d4d;
+  --chart-4: #00ccff;
+  --chart-5: #ff66cc;
 
-  --sidebar: oklch(0.19 0 0);
-  --sidebar-foreground: oklch(0.97 0 0);
-  --sidebar-primary: oklch(0.82 0.26 143);
-  --sidebar-primary-foreground: oklch(0.16 0 0);
-  --sidebar-accent: oklch(0.26 0 0);
-  --sidebar-accent-foreground: oklch(0.97 0 0);
-  --sidebar-border: oklch(0.3 0 0);
-  --sidebar-ring: oklch(0.82 0.26 143);
+  --sidebar: #141414;
+  --sidebar-foreground: #f0f0f0;
+  --sidebar-primary: #FFFF00;
+  --sidebar-primary-foreground: #0b0b0b;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #f0f0f0;
+  --sidebar-border: #2c2c2c;
+  --sidebar-ring: #FFFF00;
 
-  --glow-primary: 0 0 24px oklch(0.82 0.26 143 / 0.35);
-  --glow-danger: 0 0 28px oklch(0.62 0.23 26 / 0.4);
-  --gradient-panel: linear-gradient(
-    160deg,
-    oklch(0.23 0 0),
-    oklch(0.19 0 0)
-  );
+  --glow-primary: 0 0 40px rgba(255, 255, 0, 0.25), 0 0 80px rgba(255, 255, 0, 0.1);
+  --glow-danger: 0 0 28px rgba(255, 77, 77, 0.35);
+  --gradient-panel: linear-gradient(160deg, #1a1a1a, #0f0f0f);
+  --gradient-primary: linear-gradient(135deg, #FFFF00, #ffcc00);
 }
 
 .dark {
@@ -130,7 +129,7 @@
 
 @keyframes crash-flash {
   0% {
-    background-color: oklch(0.62 0.23 26 / 0.35);
+    background-color: rgba(255, 77, 77, 0.3);
   }
   100% {
     background-color: transparent;
@@ -140,7 +139,7 @@
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -148,8 +147,17 @@
   }
 }
 
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 @utility panel-surface {
-  background-image: var(--gradient-panel);
+  background: var(--gradient-panel);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
 }
@@ -159,7 +167,7 @@
 }
 
 @utility text-glow {
-  text-shadow: 0 0 24px oklch(0.82 0.26 143 / 0.45);
+  text-shadow: 0 0 40px rgba(255, 255, 0, 0.35);
 }
 
 @utility no-scrollbar {
@@ -185,11 +193,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1,
-  h2,
-  h3 {
+  h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -0.02em;
   }
 }

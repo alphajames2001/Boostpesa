@@ -10,13 +10,13 @@ import { useGame, useMockState } from "@/lib/hooks";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "dotPesa — Crash Betting with M-Pesa" },
+      { title: "RushPesa — Crash Betting with M-Pesa" },
       {
         name: "description",
         content:
-          "Play dotPesa crash: watch the multiplier climb, cash out before it crashes. Instant M-Pesa deposits and withdrawals in Kenya.",
+          "Play RushPesa crash: watch the multiplier climb, cash out before it crashes. Instant M-Pesa deposits and withdrawals in Kenya.",
       },
-      { property: "og:title", content: "dotPesa — Crash Betting with M-Pesa" },
+      { property: "og:title", content: "RushPesa — Crash Betting with M-Pesa" },
       {
         property: "og:description",
         content:
@@ -36,14 +36,15 @@ function GamePage() {
     <div className="flex min-h-screen flex-col bg-background lg:h-screen lg:overflow-hidden">
       <Navbar />
       <main className="mx-auto flex w-full flex-1 max-w-[1600px] flex-col gap-3 p-3 sm:p-5 lg:min-h-0 lg:gap-2 lg:overflow-hidden lg:p-2">
+        {/* Header with yellow accent */}
         <div className="flex items-center justify-between gap-3">
           <h1 className="font-display text-lg font-extrabold sm:text-xl">
-            Crash <span className="text-primary">·</span> Round #{game.roundId}
+            Crash <span className="text-primary">✦</span> Round #{game.roundId}
           </h1>
           <LimitsInfo />
         </div>
 
-        {/* Desktop: smaller canvas, more compact layout */}
+        {/* Desktop: compact layout */}
         <div className="grid gap-3 lg:min-h-0 lg:flex-1 lg:gap-2 lg:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)] 2xl:grid-cols-[320px_minmax(0,1fr)]">
           <div className="order-2 lg:order-1 lg:min-h-0">
             <LiveBetsTable liveBets={game.liveBets} history={game.history} />
