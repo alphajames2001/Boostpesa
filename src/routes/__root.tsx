@@ -1,3 +1,4 @@
+// ===== __root.tsx ===== (remove emojis)
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -9,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { Home, RefreshCw } from "lucide-react";
 
 import appCss from "../styles.css?url";
 
@@ -16,16 +18,17 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <div className="text-7xl mb-4 font-display font-bold text-primary">404</div>
+        <h1 className="text-2xl font-semibold text-foreground">Page not found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
           >
+            <Home className="size-4 mr-2" />
             Go home
           </Link>
         </div>
@@ -41,28 +44,31 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+        <div className="text-7xl mb-4 font-display font-bold text-warning">!</div>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
           >
+            <RefreshCw className="size-4 mr-2" />
             Try again
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-xl border border-border bg-elevated px-6 py-3 text-sm font-bold text-foreground transition-all hover:bg-accent"
           >
+            <Home className="size-4 mr-2" />
             Go home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -74,22 +80,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "dotPesa — Crash Betting with M-Pesa" },
+      { title: "PlayPesa — Casino Crash Betting" },
       {
         name: "description",
         content:
-          "dotPesa is a crash betting game for Kenya with instant M-Pesa deposits and withdrawals.",
+          "PlayPesa is a crash betting game with instant M-Pesa deposits and withdrawals in Kenya.",
       },
-      { name: "author", content: "dotPesa" },
-      { property: "og:title", content: "dotPesa — Crash Betting with M-Pesa" },
+      { name: "author", content: "PlayPesa" },
+      { property: "og:title", content: "PlayPesa — Casino Crash Betting" },
       {
         property: "og:description",
         content:
-          "dotPesa is a crash betting game for Kenya with instant M-Pesa deposits and withdrawals.",
+          "PlayPesa is a crash betting game with instant M-Pesa deposits and withdrawals in Kenya.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#0e0e0e" },
+      { name: "theme-color", content: "#007BFF" },
     ],
     links: [
       {
@@ -100,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],

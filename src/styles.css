@@ -1,3 +1,4 @@
+/* ===== styles.css ===== */
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -5,17 +6,20 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * RushPesa — bold yellow crash betting UI.
- * Primary: #FFFF00 (yellow)
- * Fonts: Outfit (display) + Inter (body)
+ * PlayPesa — Modern casino crash betting.
+ * Primary: #007BFF (vibrant blue)
+ * Accents: Gold, Purple, Pink, Teal
+ * Fonts: Poppins (display) + Inter (body)
+ * Rounded, glossy, energetic casino feel
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
   
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -38,89 +42,78 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
   
-  --font-display: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   
   --animate-crash-flash: crash-flash 0.5s ease-out;
   --animate-rise: rise 0.35s ease-out;
-  --animate-pulse-slow: pulse-slow 2s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s infinite;
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 1.25rem;
 
-  --background: #0b0b0b;
-  --foreground: #f0f0f0;
+  /* Dark casino background with subtle gradient */
+  --background: #0a0e1a;
+  --foreground: #ffffff;
 
-  --card: #161616;
-  --card-foreground: #f0f0f0;
-  --panel: #161616;
-  --panel-foreground: #f0f0f0;
-  --elevated: #222222;
+  --card: #111827;
+  --card-foreground: #ffffff;
+  --panel: linear-gradient(145deg, #1a2236, #0f1525);
+  --panel-foreground: #ffffff;
+  --elevated: #1e2a3e;
 
-  --popover: #1a1a1a;
-  --popover-foreground: #f0f0f0;
+  --popover: #1a2236;
+  --popover-foreground: #ffffff;
 
-  /* PRIMARY: #FFFF00 (yellow) */
-  --primary: #FFFF00;
-  --primary-foreground: #0b0b0b;
+  /* PRIMARY: #007BFF (vibrant blue) */
+  --primary: #007BFF;
+  --primary-foreground: #ffffff;
 
-  --secondary: #2a2a2a;
-  --secondary-foreground: #f0f0f0;
+  --secondary: #2a3a5e;
+  --secondary-foreground: #ffffff;
 
-  --muted: #2a2a2a;
-  --muted-foreground: #999999;
+  --muted: #1a2236;
+  --muted-foreground: #8899bb;
 
-  --accent: #333333;
-  --accent-foreground: #f0f0f0;
+  --accent: #2a3a5e;
+  --accent-foreground: #ffffff;
 
-  --destructive: #ff4d4d;
+  /* Rich casino colors */
+  --destructive: #ff3355;
   --destructive-foreground: #ffffff;
 
-  --warning: #ffaa00;
-  --warning-foreground: #0b0b0b;
+  --warning: #ffd700;
+  --warning-foreground: #0a0e1a;
 
-  --border: #2c2c2c;
-  --input: #2c2c2c;
-  --ring: #FFFF00;
+  --success: #00d4aa;
+  --success-foreground: #0a0e1a;
 
-  --chart-1: #FFFF00;
-  --chart-2: #ffaa00;
-  --chart-3: #ff4d4d;
-  --chart-4: #00ccff;
-  --chart-5: #ff66cc;
+  --border: #2a3a5e;
+  --input: #1a2236;
+  --ring: #007BFF;
 
-  --sidebar: #141414;
-  --sidebar-foreground: #f0f0f0;
-  --sidebar-primary: #FFFF00;
-  --sidebar-primary-foreground: #0b0b0b;
-  --sidebar-accent: #2a2a2a;
-  --sidebar-accent-foreground: #f0f0f0;
-  --sidebar-border: #2c2c2c;
-  --sidebar-ring: #FFFF00;
+  /* Casino accent colors for charts & highlights */
+  --chart-1: #007BFF;
+  --chart-2: #ffd700;
+  --chart-3: #ff3355;
+  --chart-4: #00d4aa;
+  --chart-5: #a855f7;
 
-  --glow-primary: 0 0 40px rgba(255, 255, 0, 0.25), 0 0 80px rgba(255, 255, 0, 0.1);
-  --glow-danger: 0 0 28px rgba(255, 77, 77, 0.35);
-  --gradient-panel: linear-gradient(160deg, #1a1a1a, #0f0f0f);
-  --gradient-primary: linear-gradient(135deg, #FFFF00, #ffcc00);
+  --glow-primary: 0 0 40px rgba(0, 123, 255, 0.3), 0 0 80px rgba(0, 123, 255, 0.1);
+  --glow-gold: 0 0 40px rgba(255, 215, 0, 0.3);
+  --glow-danger: 0 0 40px rgba(255, 51, 85, 0.3);
+  --gradient-panel: linear-gradient(145deg, #1a2236, #0f1525);
+  --gradient-primary: linear-gradient(135deg, #007BFF, #0056b3);
+  --gradient-gold: linear-gradient(135deg, #ffd700, #f59e0b);
 }
 
 .dark {
@@ -129,30 +122,50 @@
 
 @keyframes crash-flash {
   0% {
-    background-color: rgba(255, 77, 77, 0.3);
+    background-color: rgba(255, 51, 85, 0.3);
+    box-shadow: 0 0 60px rgba(255, 51, 85, 0.2);
   }
   100% {
     background-color: transparent;
+    box-shadow: none;
   }
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes pulse-slow {
+@keyframes pulse-glow {
   0%, 100% {
-    opacity: 1;
+    box-shadow: var(--glow-primary);
   }
   50% {
-    opacity: 0.5;
+    box-shadow: 0 0 60px rgba(0, 123, 255, 0.5), 0 0 120px rgba(0, 123, 255, 0.2);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
   }
 }
 
@@ -160,14 +173,24 @@
   background: var(--gradient-panel);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 @utility glow-primary {
   box-shadow: var(--glow-primary);
 }
 
+@utility glow-gold {
+  box-shadow: var(--glow-gold);
+}
+
 @utility text-glow {
-  text-shadow: 0 0 40px rgba(255, 255, 0, 0.35);
+  text-shadow: 0 0 40px rgba(0, 123, 255, 0.4);
+}
+
+@utility text-glow-gold {
+  text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
 }
 
 @utility no-scrollbar {
@@ -177,6 +200,14 @@
   }
 }
 
+@utility shimmer-text {
+  background: linear-gradient(90deg, #007BFF, #ffd700, #007BFF);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -184,13 +215,15 @@
 
   html {
     color-scheme: dark;
+    background: #0a0e1a;
   }
 
   body {
-    background-color: var(--color-background);
+    background: radial-gradient(ellipse at 50% 0%, #111827 0%, #0a0e1a 70%);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
   }
 
   h1, h2, h3 {

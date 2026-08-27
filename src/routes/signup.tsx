@@ -12,17 +12,17 @@ import { isValidKenyanLocal } from "@/lib/utils";
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Create account — RushPesa" },
+      { title: "Create account — PlayPesa" },
       {
         name: "description",
         content:
-          "Open a RushPesa account in seconds and start playing crash with M-Pesa deposits.",
+          "Open a PlayPesa account in seconds and start playing crash with M-Pesa deposits.",
       },
-      { property: "og:title", content: "Create account — RushPesa" },
+      { property: "og:title", content: "Create account — PlayPesa" },
       {
         property: "og:description",
         content:
-          "Open a RushPesa account in seconds and start playing crash with M-Pesa deposits.",
+          "Open a PlayPesa account in seconds and start playing crash with M-Pesa deposits.",
       },
     ],
   }),
@@ -90,7 +90,7 @@ function SignupPage() {
       return setError(res.error);
     }
 
-    toast.success(`Account created — KES 50,000 demo balance added`);
+    toast.success("Account created — KES 50,000 demo balance added");
     navigate({ to: "/" });
   }
 
@@ -114,7 +114,7 @@ function SignupPage() {
             id="username"
             value={form.username}
             onChange={set("username")}
-            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
             placeholder="Choose a unique username"
             autoComplete="username"
           />
@@ -130,7 +130,7 @@ function SignupPage() {
             type="email"
             value={form.email}
             onChange={set("email")}
-            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
             placeholder="your@email.com"
             autoComplete="email"
           />
@@ -138,7 +138,7 @@ function SignupPage() {
 
         <div className="space-y-1.5">
           <Label htmlFor="phone" className="text-muted-foreground">M-Pesa phone number</Label>
-          <div className="flex h-12 items-stretch overflow-hidden rounded-md bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+          <div className="flex h-12 items-stretch overflow-hidden rounded-xl bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
             <span className="flex items-center border-r border-border/50 px-3 text-sm font-semibold text-muted-foreground">
               +254
             </span>
@@ -165,7 +165,7 @@ function SignupPage() {
               type="password"
               value={form.password}
               onChange={set("password")}
-              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
+              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
               autoComplete="new-password"
               placeholder="Min 8 characters"
             />
@@ -177,7 +177,7 @@ function SignupPage() {
               type="password"
               value={form.confirm}
               onChange={set("confirm")}
-              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary"
+              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
               autoComplete="new-password"
               placeholder="Confirm your password"
             />
@@ -188,10 +188,10 @@ function SignupPage() {
           <Checkbox
             checked={terms}
             onCheckedChange={(v) => setTerms(v === true)}
-            className="mt-0.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            className="mt-0.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded"
           />
           <span>
-            I am 18 or older and accept the Terms &amp; Conditions and Privacy Policy.
+            I am 18 or older and accept the Terms & Conditions and Privacy Policy.
           </span>
         </label>
 
@@ -200,20 +200,20 @@ function SignupPage() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-12 w-full font-display font-extrabold bg-primary text-primary-foreground hover:bg-primary/90 glow-primary"
+          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-blue-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-xl"
         >
-          {loading ? "Creating…" : "Create account"}
+          {loading ? "Creating..." : "Create account"}
         </Button>
 
-        <p className="rounded-lg bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
+        <p className="rounded-xl bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
           By creating an account, you get:
           <br />
           <span className="text-[10px] text-muted-foreground/70">
-            ✅ KES 50,000 demo balance to practice
+            • KES 50,000 demo balance to practice
             <br />
-            ✅ Real money play with M-Pesa deposits
+            • Real money play with M-Pesa deposits
             <br />
-            ✅ Provably fair crash game
+            • Provably fair crash game
           </span>
         </p>
       </form>

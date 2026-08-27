@@ -1,3 +1,4 @@
+// ===== CrashCanvas.tsx ===== (remove emojis)
 import { useEffect, useRef } from "react";
 import type { Phase } from "@/lib/mockApi";
 import { cn } from "@/lib/utils";
@@ -42,18 +43,17 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
     ro.observe(wrap);
     resize();
 
-    // Yellow primary, red crash
-    const yellow = "#FFFF00";
-    const red = "#ff4d4d";
-    const grid = "rgba(255,255,255,0.06)";
+    const blue = "#007BFF";
+    const gold = "#ffd700";
+    const red = "#ff3355";
+    const grid = "rgba(255,255,255,0.05)";
 
     const draw = () => {
       const { phase: p, multiplier: m } = stateRef.current;
       ctx.clearRect(0, 0, w, h);
 
-      // Grid
       ctx.strokeStyle = grid;
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.5;
       ctx.lineWidth = 1;
       for (let i = 1; i < 6; i++) {
         const y = (h / 6) * i;
@@ -76,10 +76,12 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         return;
       }
 
-      const color = p === "crashed" ? red : yellow;
+      const progress = Math.min(1, Math.log(Math.max(1, m)) / Math.log(12));
+      const isHigh = progress > 0.6;
+      const color = p === "crashed" ? red : (isHigh ? gold : blue);
+      
       const padX = 16;
       const padY = 18;
-      const progress = Math.min(1, Math.log(Math.max(1, m)) / Math.log(12));
       const endX = padX + (w - padX * 2) * Math.min(0.94, 0.12 + progress * 0.85);
       const curveH = h - padY * 2;
 
@@ -89,7 +91,18 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         return [x, y] as const;
       };
 
-      // Area fill with glow
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      if (p === "crashed") {
+        grad.addColorStop(0, "rgba(255, 51, 85, 0.2)");
+        grad.addColorStop(1, "rgba(255, 51, 85, 0)");
+      } else if (isHigh) {
+        grad.addColorStop(0, "rgba(255, 215, 0, 0.2)");
+        grad.addColorStop(1, "rgba(255, 215, 0, 0)");
+      } else {
+        grad.addColorStop(0, "rgba(0, 123, 255, 0.2)");
+        grad.addColorStop(1, "rgba(0, 123, 255, 0)");
+      }
+      
       ctx.beginPath();
       ctx.moveTo(padX, h - padY);
       for (let t = 0; t <= 1.0001; t += 0.02) {
@@ -98,12 +111,9 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
       }
       ctx.lineTo(endX, h - padY);
       ctx.closePath();
-      ctx.globalAlpha = 0.15;
-      ctx.fillStyle = color;
+      ctx.fillStyle = grad;
       ctx.fill();
-      ctx.globalAlpha = 1;
 
-      // Main line with glow
       ctx.beginPath();
       for (let t = 0; t <= 1.0001; t += 0.02) {
         const [x, y] = pointAt(t);
@@ -111,36 +121,40 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         else ctx.lineTo(x, y);
       }
       ctx.strokeStyle = color;
-      ctx.lineWidth = 3.5;
+      ctx.lineWidth = 4;
       ctx.lineCap = "round";
       ctx.shadowColor = color;
       ctx.shadowBlur = 30;
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      // Particle trail
       const [hx, hy] = pointAt(1);
-      for (let i = 0; i < 10; i++) {
-        const t = 1 - i * 0.03;
+      for (let i = 0; i < 12; i++) {
+        const t = 1 - i * 0.025;
         if (t < 0) break;
         const [px, py] = pointAt(t);
         ctx.beginPath();
-        ctx.globalAlpha = (1 - i / 10) * 0.6;
+        const alpha = (1 - i / 12) * 0.6;
+        ctx.globalAlpha = alpha;
         ctx.fillStyle = color;
-        const size = 2 + (1 - i / 10) * 3;
-        ctx.arc(px + (Math.random() - 0.5) * 3, py + (Math.random() - 0.5) * 3, size, 0, Math.PI * 2);
+        const size = 2 + (1 - i / 12) * 4;
+        ctx.arc(px + (Math.random() - 0.5) * 4, py + (Math.random() - 0.5) * 4, size, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
       
-      // Head dot
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 50;
       ctx.beginPath();
       ctx.fillStyle = color;
-      ctx.shadowColor = color;
-      ctx.shadowBlur = 40;
-      ctx.arc(hx, hy, 7, 0, Math.PI * 2);
+      ctx.arc(hx, hy, 8, 0, Math.PI * 2);
       ctx.fill();
+      
       ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(255,255,255,0.6)";
+      ctx.arc(hx - 2, hy - 2, 3, 0, Math.PI * 2);
+      ctx.fill();
 
       raf = requestAnimationFrame(draw);
     };
@@ -156,7 +170,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
     <div
       ref={wrapRef}
       className={cn(
-        "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-card sm:aspect-[16/8] lg:aspect-auto lg:h-[170px] xl:h-[190px]",
+        "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-[#111827] to-[#0a0e1a] sm:aspect-[16/8] lg:aspect-auto lg:h-[170px] xl:h-[190px]",
         phase === "crashed" && "animate-crash-flash",
       )}
     >
@@ -168,7 +182,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
               Next round in
             </p>
-            <p className="font-display text-5xl font-extrabold tabular-nums text-primary sm:text-6xl lg:text-3xl xl:text-4xl">
+            <p className="font-display text-5xl font-extrabold tabular-nums text-warning sm:text-6xl lg:text-3xl xl:text-4xl">
               {countdown.toFixed(1)}s
             </p>
             <p className="mt-2 text-xs text-muted-foreground lg:mt-1">Round #{roundId}</p>
@@ -178,7 +192,11 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
             <p
               className={cn(
                 "font-display text-6xl font-extrabold tabular-nums sm:text-8xl lg:text-4xl xl:text-5xl",
-                phase === "crashed" ? "text-destructive" : "text-primary text-glow",
+                phase === "crashed" 
+                  ? "text-destructive" 
+                  : multiplier > 5 
+                    ? "text-warning text-glow-gold" 
+                    : "text-primary text-glow",
               )}
             >
               {multiplier.toFixed(2)}x
@@ -186,6 +204,11 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
             {phase === "crashed" && (
               <p className="mt-1 font-display text-sm font-bold uppercase tracking-[0.3em] text-destructive">
                 Crashed
+              </p>
+            )}
+            {phase === "running" && multiplier > 3 && (
+              <p className="mt-1 text-xs font-bold uppercase tracking-widest text-warning animate-pulse">
+                Flying high
               </p>
             )}
           </div>
