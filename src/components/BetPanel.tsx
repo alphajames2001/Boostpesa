@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { gameApi, LIMITS, formatKES, applyBalanceDelta, type Mode, type Phase } from "@/lib/mockApi";
 import { useMockState } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import { Zap, TrendingUp, Clock, CheckCircle } from "lucide-react";
 
 interface Props {
   index: 1 | 2;
@@ -145,20 +146,20 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
   let action: { label: string; onClick?: () => void; variant: "primary" | "cashout" | "cancel"; disabled?: boolean };
   if (status === "active") {
     action = {
-      label: isSubmitting ? "Cashing out…" : `Cashout ${(placedStake * multiplier).toFixed(0)} @ ${multiplier.toFixed(2)}x`,
+      label: isSubmitting ? "Cashing out..." : `Cashout ${(placedStake * multiplier).toFixed(0)} @ ${multiplier.toFixed(2)}x`,
       onClick: () => doCashout(multiplier),
       variant: "cashout",
       disabled: isSubmitting,
     };
   } else if (status === "queued") {
-    action = { label: "Bet placed — waiting…", onClick: cancelBet, variant: "cancel", disabled: isSubmitting };
+    action = { label: "Bet placed — waiting...", onClick: cancelBet, variant: "cancel", disabled: isSubmitting };
   } else if (status === "settled") {
-    action = { label: "Cashed out ✓", variant: "cancel", disabled: true };
+    action = { label: "Cashed out", variant: "cancel", disabled: true };
   } else if (phase === "running") {
     action = { label: "Waiting for next round", variant: "cancel", disabled: true };
   } else {
     action = {
-      label: isSubmitting ? "Placing bet…" : `Place Bet ${stakeNum ? formatKES(stakeNum) : ""}`.trim(),
+      label: isSubmitting ? "Placing bet..." : `Place Bet ${stakeNum ? formatKES(stakeNum) : ""}`.trim(),
       onClick: placeBet,
       variant: "primary",
       disabled: !!stakeError || !stakeNum || isSubmitting,
@@ -168,7 +169,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
   return (
     <div className="panel-surface flex flex-col gap-2 p-3 lg:gap-1.5 lg:p-2.5">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-muted-foreground">
           Bet {index}
         </span>
         <div className="flex items-center gap-1.5">
@@ -178,7 +179,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
             </span>
           )}
           {!isGuest && effectiveMode === "demo" && (
-            <span className="rounded-md bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+            <span className="rounded-md bg-warning/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-warning">
               Demo
             </span>
           )}
@@ -189,7 +190,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
           )}
           {status !== "idle" && (
             <span className="rounded-md bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
-              {status === "queued" ? "Queued" : status === "active" ? "In round" : "Settled"}
+              {status === "queued" ? "Queued" : status === "active" ? "Active" : "Settled"}
             </span>
           )}
         </div>
@@ -202,7 +203,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
             type="button"
             disabled={!canBet}
             onClick={() => setStake(String(q))}
-            className="rounded-lg bg-elevated py-1.5 font-display text-sm font-bold tabular-nums transition-colors hover:bg-primary/10 hover:text-primary disabled:opacity-40 lg:py-1"
+            className="rounded-xl bg-elevated py-1.5 font-display text-sm font-bold tabular-nums transition-all hover:bg-primary/10 hover:text-primary hover:scale-105 disabled:opacity-40 lg:py-1"
           >
             {q}
           </button>
@@ -219,14 +220,15 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
           value={stake}
           disabled={!canBet}
           onChange={(e) => setStake(e.target.value.replace(/[^\d.]/g, ""))}
-          className="h-9 bg-elevated font-display text-sm font-bold tabular-nums focus:border-primary focus:ring-primary lg:h-8"
+          className="h-9 bg-elevated font-display text-sm font-bold tabular-nums focus:border-primary focus:ring-primary rounded-xl lg:h-8"
         />
         {stakeError && <p className="text-xs text-destructive">{stakeError}</p>}
       </div>
 
       <div className="space-y-0.5 rounded-xl bg-elevated/60 p-2 lg:p-1.5">
         <div className="flex items-center justify-between gap-2">
-          <Label htmlFor={`auto-${index}`} className="text-xs text-muted-foreground">
+          <Label htmlFor={`auto-${index}`} className="text-xs text-muted-foreground flex items-center gap-1">
+            <TrendingUp className="size-3" />
             Auto cashout
           </Label>
           <Switch
@@ -244,7 +246,7 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
               value={auto}
               disabled={!canBet}
               onChange={(e) => setAuto(e.target.value.replace(/[^\d.]/g, ""))}
-              className="h-8 bg-card font-display text-sm font-bold tabular-nums focus:border-primary focus:ring-primary"
+              className="h-8 bg-card font-display text-sm font-bold tabular-nums focus:border-primary focus:ring-primary rounded-xl"
             />
             {autoError && <p className="text-xs text-destructive">{autoError}</p>}
           </>
@@ -259,10 +261,10 @@ export function BetPanel({ index, phase, multiplier, roundId, mode, username }: 
         onClick={action.onClick}
         disabled={action.disabled}
         className={cn(
-          "h-11 w-full rounded-xl font-display text-sm font-extrabold tabular-nums transition-all lg:h-10",
-          action.variant === "cashout" && "bg-warning text-warning-foreground hover:bg-warning/90",
+          "h-11 w-full rounded-2xl font-display text-sm font-extrabold tabular-nums transition-all lg:h-10",
+          action.variant === "cashout" && "bg-gradient-to-r from-warning to-amber-600 text-warning-foreground hover:shadow-lg hover:shadow-warning/30 hover:scale-105",
           action.variant === "cancel" && "bg-elevated text-foreground hover:bg-accent",
-          action.variant === "primary" && "bg-primary text-primary-foreground hover:bg-primary/90 glow-primary",
+          action.variant === "primary" && "bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 hover:scale-105",
         )}
       >
         {action.label}

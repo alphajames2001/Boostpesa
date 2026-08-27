@@ -1,4 +1,3 @@
-// ===== __root.tsx ===== (remove emojis)
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -10,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
-import { Home, RefreshCw } from "lucide-react";
+import { Home, RefreshCw, Zap } from "lucide-react";
 
 import appCss from "../styles.css?url";
 
@@ -18,15 +17,15 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <div className="text-7xl mb-4 font-display font-bold text-primary">404</div>
-        <h1 className="text-2xl font-semibold text-foreground">Page not found</h1>
+        <div className="text-8xl font-display font-bold text-primary animate-glow-pulse">404</div>
+        <h1 className="mt-4 text-2xl font-display text-foreground">Page not found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+            className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-primary to-purple-600 px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
           >
             <Home className="size-4 mr-2" />
             Go home
@@ -44,8 +43,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <div className="text-7xl mb-4 font-display font-bold text-warning">!</div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+        <Zap className="size-16 text-warning mx-auto mb-4" />
+        <h1 className="text-2xl font-display font-bold tracking-tight text-foreground">
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -57,14 +56,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+            className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-primary to-purple-600 px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
           >
             <RefreshCw className="size-4 mr-2" />
             Try again
           </button>
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-elevated px-6 py-3 text-sm font-bold text-foreground transition-all hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-2xl border border-border bg-elevated px-6 py-3 text-sm font-bold text-foreground transition-all hover:bg-accent"
           >
             <Home className="size-4 mr-2" />
             Go home
@@ -80,22 +79,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PlayPesa — Casino Crash Betting" },
+      { title: "BoostPesa — High-Energy Crash Betting" },
       {
         name: "description",
         content:
-          "PlayPesa is a crash betting game with instant M-Pesa deposits and withdrawals in Kenya.",
+          "BoostPesa is a high-energy crash betting game with instant M-Pesa deposits and withdrawals in Kenya.",
       },
-      { name: "author", content: "PlayPesa" },
-      { property: "og:title", content: "PlayPesa — Casino Crash Betting" },
+      { name: "author", content: "BoostPesa" },
+      { property: "og:title", content: "BoostPesa — High-Energy Crash Betting" },
       {
         property: "og:description",
         content:
-          "PlayPesa is a crash betting game with instant M-Pesa deposits and withdrawals in Kenya.",
+          "BoostPesa is a high-energy crash betting game with instant M-Pesa deposits and withdrawals in Kenya.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#007BFF" },
+      { name: "theme-color", content: "#FF002F" },
     ],
     links: [
       {
@@ -106,7 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],

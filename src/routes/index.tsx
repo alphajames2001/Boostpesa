@@ -1,6 +1,5 @@
-// ===== index.tsx ===== (updated with icons)
 import { createFileRoute } from "@tanstack/react-router";
-import { Zap, Flame } from "lucide-react";
+import { Flame, Zap } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { MultiplierStrip } from "@/components/MultiplierStrip";
 import { CrashCanvas } from "@/components/CrashCanvas";
@@ -12,13 +11,13 @@ import { useGame, useMockState } from "@/lib/hooks";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PlayPesa — Casino Crash Betting" },
+      { title: "BoostPesa — High-Energy Crash Betting" },
       {
         name: "description",
         content:
-          "PlayPesa crash: watch the multiplier climb, cash out before it crashes. Instant M-Pesa deposits and withdrawals in Kenya.",
+          "BoostPesa crash: watch the multiplier climb, cash out before it crashes. Instant M-Pesa deposits and withdrawals in Kenya.",
       },
-      { property: "og:title", content: "PlayPesa — Casino Crash Betting" },
+      { property: "og:title", content: "BoostPesa — High-Energy Crash Betting" },
       {
         property: "og:description",
         content:
@@ -36,11 +35,11 @@ function GamePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background lg:h-screen lg:overflow-hidden">
-      {/* Decorative casino-style background accents */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-warning/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-destructive/3 rounded-full blur-3xl"></div>
+      {/* Decorative hero gradient accents */}
+      <div className="fixed inset-0 pointer-events-none hero-gradient">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
       </div>
       
       <Navbar />
@@ -48,7 +47,7 @@ function GamePage() {
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <h1 className="font-display text-lg font-extrabold sm:text-xl flex items-center gap-2">
-              <Flame className="size-5 text-warning" />
+              <Flame className="size-5 text-primary animate-pulse-glow" />
               Crash <span className="text-warning">✦</span> Round #{game.roundId}
             </h1>
             <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-success/10 border border-success/20">

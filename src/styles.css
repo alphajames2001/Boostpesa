@@ -1,4 +1,3 @@
-/* ===== styles.css ===== */
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -6,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * PlayPesa — Modern casino crash betting.
- * Primary: #007BFF (vibrant blue)
- * Accents: Gold, Purple, Pink, Teal
- * Fonts: Poppins (display) + Inter (body)
- * Rounded, glossy, energetic casino feel
+ * BoostPesa — High-energy casino crash betting.
+ * Primary: #FF002F (vibrant red)
+ * Accents: Gold (#FFD700), Electric Blue (#00D4FF), Purple (#8B5CF6)
+ * Fonts: Orbitron (display) + Inter (body)
+ * Maximalist casino aesthetic with gradients, glow, and motion
  */
 
 @theme inline {
@@ -48,7 +47,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   
-  --font-display: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Orbitron", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   
   --animate-crash-flash: crash-flash 0.5s ease-out;
@@ -56,64 +55,67 @@
   --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
   --animate-float: float 3s ease-in-out infinite;
   --animate-shimmer: shimmer 2s infinite;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  --animate-glow-pulse: glow-pulse 1.5s ease-in-out infinite;
 }
 
 :root {
-  --radius: 1.25rem;
+  --radius: 1.5rem;
 
-  /* Dark casino background with subtle gradient */
-  --background: #0a0e1a;
+  /* Dark gradient background */
+  --background: #0a0a12;
   --foreground: #ffffff;
 
-  --card: #111827;
+  --card: #12121e;
   --card-foreground: #ffffff;
-  --panel: linear-gradient(145deg, #1a2236, #0f1525);
+  --panel: linear-gradient(145deg, #16162a, #0e0e1a);
   --panel-foreground: #ffffff;
-  --elevated: #1e2a3e;
+  --elevated: #1a1a2e;
 
-  --popover: #1a2236;
+  --popover: #16162a;
   --popover-foreground: #ffffff;
 
-  /* PRIMARY: #007BFF (vibrant blue) */
-  --primary: #007BFF;
+  /* PRIMARY: #FF002F (vibrant red) */
+  --primary: #FF002F;
   --primary-foreground: #ffffff;
 
-  --secondary: #2a3a5e;
+  --secondary: #2a1a3e;
   --secondary-foreground: #ffffff;
 
-  --muted: #1a2236;
+  --muted: #1a1a2e;
   --muted-foreground: #8899bb;
 
-  --accent: #2a3a5e;
+  --accent: #2a1a3e;
   --accent-foreground: #ffffff;
 
-  /* Rich casino colors */
-  --destructive: #ff3355;
+  /* Casino accent colors */
+  --destructive: #FF002F;
   --destructive-foreground: #ffffff;
 
-  --warning: #ffd700;
-  --warning-foreground: #0a0e1a;
+  --warning: #FFD700;
+  --warning-foreground: #0a0a12;
 
-  --success: #00d4aa;
-  --success-foreground: #0a0e1a;
+  --success: #00D4AA;
+  --success-foreground: #0a0a12;
 
-  --border: #2a3a5e;
-  --input: #1a2236;
-  --ring: #007BFF;
+  --border: #2a2a4a;
+  --input: #1a1a2e;
+  --ring: #FF002F;
 
-  /* Casino accent colors for charts & highlights */
-  --chart-1: #007BFF;
-  --chart-2: #ffd700;
-  --chart-3: #ff3355;
-  --chart-4: #00d4aa;
-  --chart-5: #a855f7;
+  --chart-1: #FF002F;
+  --chart-2: #FFD700;
+  --chart-3: #00D4FF;
+  --chart-4: #8B5CF6;
+  --chart-5: #FF6B35;
 
-  --glow-primary: 0 0 40px rgba(0, 123, 255, 0.3), 0 0 80px rgba(0, 123, 255, 0.1);
+  --glow-primary: 0 0 40px rgba(255, 0, 47, 0.3), 0 0 80px rgba(255, 0, 47, 0.1);
   --glow-gold: 0 0 40px rgba(255, 215, 0, 0.3);
-  --glow-danger: 0 0 40px rgba(255, 51, 85, 0.3);
-  --gradient-panel: linear-gradient(145deg, #1a2236, #0f1525);
-  --gradient-primary: linear-gradient(135deg, #007BFF, #0056b3);
-  --gradient-gold: linear-gradient(135deg, #ffd700, #f59e0b);
+  --glow-blue: 0 0 40px rgba(0, 212, 255, 0.3);
+  --glow-purple: 0 0 40px rgba(139, 92, 246, 0.3);
+  --gradient-panel: linear-gradient(145deg, #1a1a32, #0e0e1a);
+  --gradient-primary: linear-gradient(135deg, #FF002F, #cc0024);
+  --gradient-gold: linear-gradient(135deg, #FFD700, #f59e0b);
+  --gradient-hero: linear-gradient(135deg, #FF002F, #8B5CF6, #00D4FF);
 }
 
 .dark {
@@ -122,8 +124,8 @@
 
 @keyframes crash-flash {
   0% {
-    background-color: rgba(255, 51, 85, 0.3);
-    box-shadow: 0 0 60px rgba(255, 51, 85, 0.2);
+    background-color: rgba(255, 0, 47, 0.3);
+    box-shadow: 0 0 60px rgba(255, 0, 47, 0.2);
   }
   100% {
     background-color: transparent;
@@ -134,7 +136,7 @@
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.95);
+    transform: translateY(16px) scale(0.95);
   }
   to {
     opacity: 1;
@@ -147,7 +149,7 @@
     box-shadow: var(--glow-primary);
   }
   50% {
-    box-shadow: 0 0 60px rgba(0, 123, 255, 0.5), 0 0 120px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 60px rgba(255, 0, 47, 0.5), 0 0 120px rgba(255, 0, 47, 0.2);
   }
 }
 
@@ -156,7 +158,7 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
   }
 }
 
@@ -169,12 +171,32 @@
   }
 }
 
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(255, 0, 47, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(255, 0, 47, 0.8), 0 0 80px rgba(255, 0, 47, 0.3);
+  }
+}
+
 @utility panel-surface {
   background: var(--gradient-panel);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 @utility glow-primary {
@@ -185,12 +207,24 @@
   box-shadow: var(--glow-gold);
 }
 
+@utility glow-blue {
+  box-shadow: var(--glow-blue);
+}
+
+@utility glow-purple {
+  box-shadow: var(--glow-purple);
+}
+
 @utility text-glow {
-  text-shadow: 0 0 40px rgba(0, 123, 255, 0.4);
+  text-shadow: 0 0 30px rgba(255, 0, 47, 0.4);
 }
 
 @utility text-glow-gold {
-  text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+@utility text-glow-blue {
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
 }
 
 @utility no-scrollbar {
@@ -201,11 +235,15 @@
 }
 
 @utility shimmer-text {
-  background: linear-gradient(90deg, #007BFF, #ffd700, #007BFF);
-  background-size: 200% auto;
+  background: linear-gradient(90deg, #FF002F, #FFD700, #00D4FF, #FF002F);
+  background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 3s linear infinite;
+}
+
+@utility hero-gradient {
+  background: linear-gradient(135deg, rgba(255, 0, 47, 0.15), rgba(139, 92, 246, 0.1), rgba(0, 212, 255, 0.05));
 }
 
 @layer base {
@@ -215,11 +253,11 @@
 
   html {
     color-scheme: dark;
-    background: #0a0e1a;
+    background: #0a0a12;
   }
 
   body {
-    background: radial-gradient(ellipse at 50% 0%, #111827 0%, #0a0e1a 70%);
+    background: radial-gradient(ellipse at 50% 0%, #12121e 0%, #0a0a12 70%);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -229,6 +267,7 @@
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 }

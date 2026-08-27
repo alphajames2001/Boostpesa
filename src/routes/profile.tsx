@@ -11,7 +11,9 @@ import {
   Ban, 
   LogOut,
   Settings,
-  Wallet
+  Wallet,
+  CheckCircle,
+  XCircle
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { LimitsInfo } from "@/components/LimitsInfo";
@@ -26,13 +28,13 @@ import { cn, isValidKenyanLocal, localPart } from "@/lib/utils";
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile & safer play — PlayPesa" },
+      { title: "Profile & safer play — BoostPesa" },
       {
         name: "description",
         content:
-          "Manage your PlayPesa account, switch between demo and real mode, and set deposit limits, session reminders and self-exclusion.",
+          "Manage your BoostPesa account, switch between demo and real mode, and set deposit limits, session reminders and self-exclusion.",
       },
-      { property: "og:title", content: "Profile & safer play — PlayPesa" },
+      { property: "og:title", content: "Profile & safer play — BoostPesa" },
       {
         property: "og:description",
         content: "Manage your account, switch demo/real mode and set responsible-gambling controls.",
@@ -89,7 +91,7 @@ function ProfilePage() {
         <section className="panel-surface p-5">
           {hydrated && user ? (
             <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4">
-              <div className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-blue-600 font-display text-lg font-extrabold uppercase text-white shadow-lg shadow-primary/20">
+              <div className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-purple-600 font-display text-lg font-extrabold uppercase text-white shadow-lg shadow-primary/20">
                 {user.username.slice(0, 2)}
               </div>
               <div className="min-w-0">
@@ -128,7 +130,7 @@ function ProfilePage() {
             <div className="space-y-1.5">
               <Label htmlFor="pphone" className="text-muted-foreground">Phone number</Label>
               <div className="flex gap-2">
-                <div className="flex h-11 flex-1 items-stretch overflow-hidden rounded-xl bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+                <div className="flex h-11 flex-1 items-stretch overflow-hidden rounded-2xl bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
                   <span className="flex items-center border-r border-border/50 px-3 text-sm font-semibold text-muted-foreground">
                     +254
                   </span>
@@ -147,7 +149,7 @@ function ProfilePage() {
                 </div>
                 <Button 
                   variant="secondary" 
-                  className="h-11 rounded-xl bg-elevated hover:bg-primary/10 hover:text-primary transition-colors" 
+                  className="h-11 rounded-2xl bg-elevated hover:bg-primary/10 hover:text-primary transition-colors" 
                   onClick={savePhone} 
                   disabled={savingPhone || !phoneValid}
                 >
@@ -175,7 +177,7 @@ function ProfilePage() {
                 key={m}
                 onClick={() => walletApi.setMode(m)}
                 className={cn(
-                  "rounded-xl bg-elevated p-4 text-left transition-all hover:scale-[1.02]",
+                  "rounded-2xl bg-elevated p-4 text-left transition-all hover:scale-[1.02]",
                   state.mode === m ? "ring-2 ring-primary shadow-lg shadow-primary/20" : "hover:bg-accent",
                 )}
               >
@@ -213,11 +215,11 @@ function ProfilePage() {
                 placeholder="No limit set"
                 value={limitInput}
                 onChange={(e) => setLimitInput(e.target.value.replace(/[^\d]/g, ""))}
-                className="h-11 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
+                className="h-11 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl"
               />
               <Button
                 variant="secondary"
-                className="h-11 rounded-xl bg-elevated hover:bg-primary/10 hover:text-primary transition-colors"
+                className="h-11 rounded-2xl bg-elevated hover:bg-primary/10 hover:text-primary transition-colors"
                 onClick={() => {
                   profileApi.updateResponsible({ depositLimit: limitInput ? Number(limitInput) : null });
                   toast.success(limitInput ? `Deposit limit set to KES ${limitInput}` : "Deposit limit removed");
@@ -249,7 +251,7 @@ function ProfilePage() {
 
         <Button
           variant="secondary"
-          className="h-12 w-full font-display font-bold rounded-xl bg-elevated hover:bg-destructive/10 hover:text-destructive transition-colors flex items-center gap-2"
+          className="h-12 w-full font-display font-bold rounded-2xl bg-elevated hover:bg-destructive/10 hover:text-destructive transition-colors flex items-center gap-2"
           onClick={async () => {
             await authApi.logout();
             navigate({ to: "/login" });
@@ -277,7 +279,7 @@ function ToggleRow({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-xl bg-elevated/60 p-4 border border-border/30">
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-2xl bg-elevated/60 p-4 border border-border/30">
       <div className="flex items-center gap-3 min-w-0">
         {icon}
         <div className="min-w-0">

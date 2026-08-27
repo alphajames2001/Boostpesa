@@ -8,21 +8,22 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { authApi } from "@/lib/mockApi";
 import { isValidKenyanLocal } from "@/lib/utils";
+import { User, Mail, Phone, Lock, CheckCircle } from "lucide-react";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Create account — PlayPesa" },
+      { title: "Create account — BoostPesa" },
       {
         name: "description",
         content:
-          "Open a PlayPesa account in seconds and start playing crash with M-Pesa deposits.",
+          "Open a BoostPesa account in seconds and start playing crash with M-Pesa deposits.",
       },
-      { property: "og:title", content: "Create account — PlayPesa" },
+      { property: "og:title", content: "Create account — BoostPesa" },
       {
         property: "og:description",
         content:
-          "Open a PlayPesa account in seconds and start playing crash with M-Pesa deposits.",
+          "Open a BoostPesa account in seconds and start playing crash with M-Pesa deposits.",
       },
     ],
   }),
@@ -110,14 +111,17 @@ function SignupPage() {
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="username" className="text-muted-foreground">Username</Label>
-          <Input
-            id="username"
-            value={form.username}
-            onChange={set("username")}
-            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
-            placeholder="Choose a unique username"
-            autoComplete="username"
-          />
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input
+              id="username"
+              value={form.username}
+              onChange={set("username")}
+              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9"
+              placeholder="Choose a unique username"
+              autoComplete="username"
+            />
+          </div>
           <p className="text-[10px] text-muted-foreground">
             3-30 characters, letters and numbers only
           </p>
@@ -125,20 +129,23 @@ function SignupPage() {
 
         <div className="space-y-1.5">
           <Label htmlFor="email" className="text-muted-foreground">Email address</Label>
-          <Input
-            id="email"
-            type="email"
-            value={form.email}
-            onChange={set("email")}
-            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
-            placeholder="your@email.com"
-            autoComplete="email"
-          />
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input
+              id="email"
+              type="email"
+              value={form.email}
+              onChange={set("email")}
+              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9"
+              placeholder="your@email.com"
+              autoComplete="email"
+            />
+          </div>
         </div>
 
         <div className="space-y-1.5">
           <Label htmlFor="phone" className="text-muted-foreground">M-Pesa phone number</Label>
-          <div className="flex h-12 items-stretch overflow-hidden rounded-xl bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+          <div className="flex h-12 items-stretch overflow-hidden rounded-2xl bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
             <span className="flex items-center border-r border-border/50 px-3 text-sm font-semibold text-muted-foreground">
               +254
             </span>
@@ -160,27 +167,33 @@ function SignupPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
             <Label htmlFor="password" className="text-muted-foreground">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={form.password}
-              onChange={set("password")}
-              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
-              autoComplete="new-password"
-              placeholder="Min 8 characters"
-            />
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                id="password"
+                type="password"
+                value={form.password}
+                onChange={set("password")}
+                className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9"
+                autoComplete="new-password"
+                placeholder="Min 8 characters"
+              />
+            </div>
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="confirm" className="text-muted-foreground">Confirm password</Label>
-            <Input
-              id="confirm"
-              type="password"
-              value={form.confirm}
-              onChange={set("confirm")}
-              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
-              autoComplete="new-password"
-              placeholder="Confirm your password"
-            />
+            <div className="relative">
+              <CheckCircle className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                id="confirm"
+                type="password"
+                value={form.confirm}
+                onChange={set("confirm")}
+                className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9"
+                autoComplete="new-password"
+                placeholder="Confirm your password"
+              />
+            </div>
           </div>
         </div>
 
@@ -200,12 +213,12 @@ function SignupPage() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-blue-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-xl"
+          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-2xl"
         >
           {loading ? "Creating..." : "Create account"}
         </Button>
 
-        <p className="rounded-xl bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
+        <p className="rounded-2xl bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
           By creating an account, you get:
           <br />
           <span className="text-[10px] text-muted-foreground/70">

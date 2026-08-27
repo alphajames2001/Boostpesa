@@ -10,17 +10,17 @@ import { authApi } from "@/lib/mockApi";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Log in — PlayPesa" },
+      { title: "Log in — BoostPesa" },
       {
         name: "description",
         content:
-          "Sign in to your PlayPesa account to play crash and manage your M-Pesa wallet.",
+          "Sign in to your BoostPesa account to play crash and manage your M-Pesa wallet.",
       },
-      { property: "og:title", content: "Log in — PlayPesa" },
+      { property: "og:title", content: "Log in — BoostPesa" },
       {
         property: "og:description",
         content:
-          "Sign in to your PlayPesa account to play crash and manage your M-Pesa wallet.",
+          "Sign in to your BoostPesa account to play crash and manage your M-Pesa wallet.",
       },
     ],
   }),
@@ -63,7 +63,7 @@ function LoginPage() {
       subtitle="Log in with your email address."
       footer={
         <>
-          New to PlayPesa?{" "}
+          New to BoostPesa?{" "}
           <Link to="/signup" className="font-semibold text-primary hover:underline">
             Create an account
           </Link>
@@ -78,7 +78,7 @@ function LoginPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl"
             autoComplete="email"
             placeholder="your@email.com"
           />
@@ -95,7 +95,7 @@ function LoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl"
+            className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl"
             autoComplete="current-password"
             placeholder="••••••••"
           />
@@ -104,11 +104,11 @@ function LoginPage() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-blue-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-xl"
+          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-2xl"
         >
           {loading ? "Signing in..." : "Log in"}
         </Button>
-        <p className="rounded-xl bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
+        <p className="rounded-2xl bg-elevated p-3 text-xs text-muted-foreground border border-border/50">
           Demo accounts: <span className="font-semibold text-primary">user1 … user200</span>, shared
           password <span className="font-semibold text-primary">demo1234</span>.
           <br />

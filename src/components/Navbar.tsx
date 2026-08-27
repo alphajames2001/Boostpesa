@@ -1,6 +1,5 @@
-// ===== Navbar.tsx =====
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Wallet, User as UserIcon, LogOut, Menu, Crown, Users, Zap } from "lucide-react";
+import { Wallet, User as UserIcon, LogOut, Menu, Crown, Users, Zap, TrendingUp } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,12 +22,10 @@ export function Navbar() {
   const balance = state.balances?.[state.mode] ?? 0;
   const user = hydrated ? state.session?.user : null;
   const isGuest = !user;
-  
-  // Count active bets from live bets
   const activeBets = game.liveBets?.length || 0;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/50 bg-[#0a0e1a]/95 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-primary/20 bg-[#0a0a12]/95 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-3 px-3 sm:px-5">
         <Link to="/" className="shrink-0">
           <Logo className="h-7 sm:h-8" />
@@ -51,7 +48,7 @@ export function Navbar() {
         <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-3">
           {/* Balance with gold accent */}
           <div className="flex min-w-0 items-center gap-2 rounded-full border border-warning/20 bg-elevated/80 px-3 py-1.5 backdrop-blur">
-            <Crown className="size-3.5 text-warning" />
+            <TrendingUp className="size-3.5 text-warning" />
             <span className="truncate font-display text-sm font-bold tabular-nums text-warning">
               {hydrated ? `KES ${formatKES(balance)}` : "—"}
             </span>
@@ -70,7 +67,7 @@ export function Navbar() {
           <Button 
             asChild 
             size="sm" 
-            className="hidden font-bold sm:inline-flex bg-gradient-to-r from-primary to-blue-600 text-white hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all rounded-xl px-5"
+            className="hidden font-bold sm:inline-flex bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all rounded-2xl px-5"
           >
             <Link to="/wallet">
               <Wallet className="size-4 mr-1.5" />
@@ -82,7 +79,7 @@ export function Navbar() {
             <DropdownMenuTrigger asChild>
               <button
                 aria-label="Account menu"
-                className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-r from-primary to-blue-600 text-white transition-all hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
+                className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-r from-primary to-purple-600 text-white transition-all hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
               >
                 {user ? (
                   <span className="font-display text-sm font-extrabold uppercase">
@@ -93,7 +90,7 @@ export function Navbar() {
                 )}
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 border-primary/20 bg-[#111827]">
+            <DropdownMenuContent align="end" className="w-56 border-primary/20 bg-[#12121e]">
               <DropdownMenuLabel className="truncate font-display">
                 {user ? (
                   <span className="text-primary flex items-center gap-1.5">

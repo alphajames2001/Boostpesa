@@ -1,4 +1,3 @@
-// ===== CrashCanvas.tsx ===== (remove emojis)
 import { useEffect, useRef } from "react";
 import type { Phase } from "@/lib/mockApi";
 import { cn } from "@/lib/utils";
@@ -43,9 +42,10 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
     ro.observe(wrap);
     resize();
 
-    const blue = "#007BFF";
-    const gold = "#ffd700";
-    const red = "#ff3355";
+    const red = "#FF002F";
+    const gold = "#FFD700";
+    const blue = "#00D4FF";
+    const purple = "#8B5CF6";
     const grid = "rgba(255,255,255,0.05)";
 
     const draw = () => {
@@ -78,7 +78,12 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
 
       const progress = Math.min(1, Math.log(Math.max(1, m)) / Math.log(12));
       const isHigh = progress > 0.6;
-      const color = p === "crashed" ? red : (isHigh ? gold : blue);
+      const isVeryHigh = progress > 0.8;
+      let color = red;
+      if (p === "crashed") color = red;
+      else if (isVeryHigh) color = purple;
+      else if (isHigh) color = gold;
+      else color = blue;
       
       const padX = 16;
       const padY = 18;
@@ -91,16 +96,20 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         return [x, y] as const;
       };
 
+      // Area fill with gradient
       const grad = ctx.createLinearGradient(0, 0, 0, h);
       if (p === "crashed") {
-        grad.addColorStop(0, "rgba(255, 51, 85, 0.2)");
-        grad.addColorStop(1, "rgba(255, 51, 85, 0)");
+        grad.addColorStop(0, "rgba(255, 0, 47, 0.2)");
+        grad.addColorStop(1, "rgba(255, 0, 47, 0)");
+      } else if (isVeryHigh) {
+        grad.addColorStop(0, "rgba(139, 92, 246, 0.2)");
+        grad.addColorStop(1, "rgba(139, 92, 246, 0)");
       } else if (isHigh) {
         grad.addColorStop(0, "rgba(255, 215, 0, 0.2)");
         grad.addColorStop(1, "rgba(255, 215, 0, 0)");
       } else {
-        grad.addColorStop(0, "rgba(0, 123, 255, 0.2)");
-        grad.addColorStop(1, "rgba(0, 123, 255, 0)");
+        grad.addColorStop(0, "rgba(0, 212, 255, 0.2)");
+        grad.addColorStop(1, "rgba(0, 212, 255, 0)");
       }
       
       ctx.beginPath();
@@ -137,7 +146,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
         const alpha = (1 - i / 12) * 0.6;
         ctx.globalAlpha = alpha;
         ctx.fillStyle = color;
-        const size = 2 + (1 - i / 12) * 4;
+        const size = 2 + (1 - i / 12) * 5;
         ctx.arc(px + (Math.random() - 0.5) * 4, py + (Math.random() - 0.5) * 4, size, 0, Math.PI * 2);
         ctx.fill();
       }
@@ -170,7 +179,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
     <div
       ref={wrapRef}
       className={cn(
-        "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-[#111827] to-[#0a0e1a] sm:aspect-[16/8] lg:aspect-auto lg:h-[170px] xl:h-[190px]",
+        "relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-b from-[#12121e] to-[#0a0a12] sm:aspect-[16/8] lg:aspect-auto lg:h-[170px] xl:h-[190px]",
         phase === "crashed" && "animate-crash-flash",
       )}
     >
@@ -179,7 +188,7 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
       <div className="pointer-events-none absolute inset-0 grid place-items-center px-4 text-center">
         {phase === "waiting" ? (
           <div className="animate-rise">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="text-xs font-display font-semibold uppercase tracking-[0.3em] text-muted-foreground">
               Next round in
             </p>
             <p className="font-display text-5xl font-extrabold tabular-nums text-warning sm:text-6xl lg:text-3xl xl:text-4xl">
@@ -193,22 +202,24 @@ export function CrashCanvas({ phase, multiplier, countdown, roundId }: Props) {
               className={cn(
                 "font-display text-6xl font-extrabold tabular-nums sm:text-8xl lg:text-4xl xl:text-5xl",
                 phase === "crashed" 
-                  ? "text-destructive" 
-                  : multiplier > 5 
-                    ? "text-warning text-glow-gold" 
-                    : "text-primary text-glow",
+                  ? "text-primary" 
+                  : multiplier > 10 
+                    ? "text-purple-400 text-glow" 
+                    : multiplier > 5 
+                      ? "text-warning text-glow-gold" 
+                      : "text-blue-400 text-glow-blue",
               )}
             >
               {multiplier.toFixed(2)}x
             </p>
             {phase === "crashed" && (
-              <p className="mt-1 font-display text-sm font-bold uppercase tracking-[0.3em] text-destructive">
+              <p className="mt-1 font-display text-sm font-bold uppercase tracking-[0.3em] text-primary animate-pulse">
                 Crashed
               </p>
             )}
-            {phase === "running" && multiplier > 3 && (
-              <p className="mt-1 text-xs font-bold uppercase tracking-widest text-warning animate-pulse">
-                Flying high
+            {phase === "running" && multiplier > 5 && (
+              <p className="mt-1 text-xs font-display font-bold uppercase tracking-widest text-warning animate-pulse">
+                Boosting!
               </p>
             )}
           </div>

@@ -6,14 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authApi } from "@/lib/mockApi";
+import { Phone, Key, Lock, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
-      { title: "Reset password — PlayPesa" },
-      { name: "description", content: "Reset your PlayPesa password using an SMS one-time code sent to your phone." },
-      { property: "og:title", content: "Reset password — PlayPesa" },
-      { property: "og:description", content: "Reset your PlayPesa password using an SMS one-time code sent to your phone." },
+      { title: "Reset password — BoostPesa" },
+      { name: "description", content: "Reset your BoostPesa password using an SMS one-time code sent to your phone." },
+      { property: "og:title", content: "Reset password — BoostPesa" },
+      { property: "og:description", content: "Reset your BoostPesa password using an SMS one-time code sent to your phone." },
     ],
   }),
   component: ForgotPasswordPage,
@@ -60,17 +61,20 @@ function ForgotPasswordPage() {
   }
 
   const copy = {
-    phone: { title: "Forgot password", sub: "Enter the phone number on your account." },
-    otp: { title: "Verify your phone", sub: `We sent a 6-digit code to ${phone}.` },
-    password: { title: "Set a new password", sub: "Choose a password of at least 8 characters." },
+    phone: { title: "Forgot password", sub: "Enter the phone number on your account.", icon: Phone },
+    otp: { title: "Verify your phone", sub: `We sent a 6-digit code to ${phone}.`, icon: Key },
+    password: { title: "Set a new password", sub: "Choose a password of at least 8 characters.", icon: Lock },
   }[step];
+
+  const Icon = copy.icon;
 
   return (
     <AuthShell
       title={copy.title}
       subtitle={copy.sub}
       footer={
-        <Link to="/login" className="font-semibold text-primary hover:underline">
+        <Link to="/login" className="font-semibold text-primary hover:underline flex items-center gap-1">
+          <ArrowLeft className="size-3" />
           Back to log in
         </Link>
       }
@@ -90,28 +94,34 @@ function ForgotPasswordPage() {
         {step === "phone" && (
           <div className="space-y-1.5">
             <Label htmlFor="phone" className="text-muted-foreground">Phone number</Label>
-            <Input 
-              id="phone" 
-              inputMode="tel" 
-              placeholder="254712345678" 
-              value={phone} 
-              onChange={(e) => setPhone(e.target.value)} 
-              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl" 
-            />
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input 
+                id="phone" 
+                inputMode="tel" 
+                placeholder="254712345678" 
+                value={phone} 
+                onChange={(e) => setPhone(e.target.value)} 
+                className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9" 
+              />
+            </div>
           </div>
         )}
 
         {step === "otp" && (
           <div className="space-y-1.5">
             <Label htmlFor="otp" className="text-muted-foreground">6-digit code</Label>
-            <Input
-              id="otp"
-              inputMode="numeric"
-              maxLength={6}
-              value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-              className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl text-center font-display text-xl font-extrabold tracking-[0.5em]"
-            />
+            <div className="relative">
+              <Key className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                id="otp"
+                inputMode="numeric"
+                maxLength={6}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl text-center font-display text-xl font-extrabold tracking-[0.5em] pl-9"
+              />
+            </div>
           </div>
         )}
 
@@ -119,23 +129,29 @@ function ForgotPasswordPage() {
           <>
             <div className="space-y-1.5">
               <Label htmlFor="new" className="text-muted-foreground">New password</Label>
-              <Input 
-                id="new" 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl" 
-              />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                <Input 
+                  id="new" 
+                  type="password" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9" 
+                />
+              </div>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="confirm" className="text-muted-foreground">Confirm password</Label>
-              <Input 
-                id="confirm" 
-                type="password" 
-                value={confirm} 
-                onChange={(e) => setConfirm(e.target.value)} 
-                className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-xl" 
-              />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                <Input 
+                  id="confirm" 
+                  type="password" 
+                  value={confirm} 
+                  onChange={(e) => setConfirm(e.target.value)} 
+                  className="h-12 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl pl-9" 
+                />
+              </div>
             </div>
           </>
         )}
@@ -144,7 +160,7 @@ function ForgotPasswordPage() {
         <Button 
           type="submit" 
           disabled={loading} 
-          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-blue-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-xl"
+          className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-2xl"
         >
           {loading ? "Please wait..." : step === "password" ? "Update password" : "Continue"}
         </Button>

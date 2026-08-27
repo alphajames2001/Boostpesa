@@ -1,6 +1,19 @@
+// ===== wallet.tsx =====
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { 
+  Wallet as WalletIcon, 
+  ArrowDownCircle, 
+  ArrowUpCircle, 
+  History, 
+  CheckCircle, 
+  XCircle, 
+  Clock,
+  Coins,
+  Crown,
+  TrendingUp
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { LimitsInfo } from "@/components/LimitsInfo";
 import { Button } from "@/components/ui/button";
@@ -21,13 +34,13 @@ import { cn, isValidKenyanLocal, localPart } from "@/lib/utils";
 export const Route = createFileRoute("/wallet")({
   head: () => ({
     meta: [
-      { title: "Wallet — PlayPesa M-Pesa deposits & withdrawals" },
+      { title: "Wallet — BoostPesa M-Pesa deposits & withdrawals" },
       {
         name: "description",
         content:
-          "Top up via M-Pesa STK push, withdraw to your phone, and review your PlayPesa transaction history.",
+          "Top up via M-Pesa STK push, withdraw to your phone, and review your BoostPesa transaction history.",
       },
-      { property: "og:title", content: "Wallet — PlayPesa M-Pesa deposits & withdrawals" },
+      { property: "og:title", content: "Wallet — BoostPesa M-Pesa deposits & withdrawals" },
       {
         property: "og:description",
         content: "Top up via M-Pesa STK push, withdraw to your phone, and review your transaction history.",
@@ -43,10 +56,6 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// M-Pesa numbers everywhere in the wallet UI are entered as just the local
-// 9 digits (07... or 01... with the leading 0 dropped) — the +254 country
-// code is fixed so people don't have to type it, and don't accidentally get
-// rejected for typing "0712..." or "+254712..." instead of "254712...".
 function PhoneField({
   id,
   label,
@@ -64,8 +73,8 @@ function PhoneField({
 }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id}>{label}</Label>
-      <div className="flex h-12 items-stretch overflow-hidden rounded-md bg-elevated">
+      <Label htmlFor={id} className="text-muted-foreground">{label}</Label>
+      <div className="flex h-12 items-stretch overflow-hidden rounded-2xl bg-elevated border border-border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
         <span className="flex items-center border-r border-border/50 px-3 text-sm font-semibold text-muted-foreground">
           +254
         </span>
@@ -75,7 +84,7 @@ function PhoneField({
           value={value}
           onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, 9))}
           disabled={disabled}
-          className="h-full flex-1 rounded-none border-0 bg-transparent"
+          className="h-full flex-1 rounded-none border-0 bg-transparent focus:ring-0"
           placeholder="7XXXXXXXX or 1XXXXXXXX"
           autoComplete="tel-national"
         />
@@ -89,9 +98,6 @@ function WalletPage() {
   const state = useMockState();
   const hydrated = useHydrated();
   const isGuest = !state.session;
-  // Prefill deposit/withdraw with the number captured at signup, but this
-  // is only a default — a customer may want to top up or withdraw from a
-  // different number, so both forms below leave it as an editable field.
   const defaultPhone = localPart(state.session?.user.phone);
 
   return (
@@ -99,7 +105,10 @@ function WalletPage() {
       <Navbar />
       <main className="mx-auto max-w-5xl space-y-4 p-3 sm:p-5">
         <div className="flex items-center justify-between gap-3">
-          <h1 className="font-display text-2xl font-extrabold">Wallet</h1>
+          <h1 className="font-display text-2xl font-extrabold flex items-center gap-2">
+            <WalletIcon className="size-6 text-warning" />
+            Wallet
+          </h1>
           <LimitsInfo label="View limits" />
         </div>
 
@@ -107,14 +116,17 @@ function WalletPage() {
           <button
             onClick={() => walletApi.setMode("demo")}
             className={cn(
-              "panel-surface p-5 text-left transition-colors",
-              state.mode === "demo" ? "ring-2 ring-primary" : "hover:bg-elevated/40",
+              "panel-surface p-5 text-left transition-all hover:scale-[1.02]",
+              state.mode === "demo" ? "ring-2 ring-primary shadow-lg shadow-primary/20" : "hover:bg-elevated/40",
             )}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              {isGuest ? "Demo (Guest)" : "Demo balance"}
-            </p>
-            <p className="mt-1 font-display text-3xl font-extrabold tabular-nums">
+            <div className="flex items-center gap-2">
+              <Coins className="size-4 text-warning" />
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                {isGuest ? "Demo (Guest)" : "Demo balance"}
+              </p>
+            </div>
+            <p className="mt-1 font-display text-3xl font-extrabold tabular-nums text-warning">
               {hydrated ? `KES ${formatKES(state.balances.demo)}` : "—"}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -126,15 +138,18 @@ function WalletPage() {
             onClick={() => walletApi.setMode("real")}
             disabled={isGuest}
             className={cn(
-              "panel-surface p-5 text-left transition-colors",
+              "panel-surface p-5 text-left transition-all hover:scale-[1.02]",
               isGuest && "opacity-50 cursor-not-allowed",
-              state.mode === "real" ? "ring-2 ring-primary" : "hover:bg-elevated/40",
+              state.mode === "real" ? "ring-2 ring-primary shadow-lg shadow-primary/20" : "hover:bg-elevated/40",
             )}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              Real balance
-            </p>
-            <p className="mt-1 font-display text-3xl font-extrabold tabular-nums">
+            <div className="flex items-center gap-2">
+              <Crown className="size-4 text-primary" />
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                Real balance
+              </p>
+            </div>
+            <p className="mt-1 font-display text-3xl font-extrabold tabular-nums text-primary">
               {hydrated ? `KES ${formatKES(state.balances.real)}` : "—"}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -144,10 +159,16 @@ function WalletPage() {
         </div>
 
         <Tabs defaultValue="deposit">
-          <TabsList className="w-full bg-elevated">
-            <TabsTrigger value="deposit" className="flex-1">Deposit</TabsTrigger>
-            <TabsTrigger value="withdraw" className="flex-1">Withdraw</TabsTrigger>
-            <TabsTrigger value="history" className="flex-1">Transactions</TabsTrigger>
+          <TabsList className="w-full bg-elevated rounded-2xl p-1">
+            <TabsTrigger value="deposit" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl">
+              <ArrowDownCircle className="size-3 mr-1.5" /> Deposit
+            </TabsTrigger>
+            <TabsTrigger value="withdraw" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl">
+              <ArrowUpCircle className="size-3 mr-1.5" /> Withdraw
+            </TabsTrigger>
+            <TabsTrigger value="history" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl">
+              <History className="size-3 mr-1.5" /> Transactions
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="deposit" className="mt-3">
             <DepositForm defaultPhone={defaultPhone} />
@@ -185,9 +206,6 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
       setError("Enter a valid M-Pesa number (07... or 01...)");
       return;
     }
-    // Flip to a disabled/processing state immediately, before the network
-    // call resolves, so a slow request can't be double-clicked into two
-    // STK pushes.
     setSubmitting(true);
     const res = await walletApi.depositInitiate(`254${phone}`, amt);
     if (!res.ok) {
@@ -231,8 +249,15 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
         helperText={phone !== "" && phoneInvalid ? "Enter a valid number (07... or 01...)" : undefined}
       />
       <div className="space-y-1.5">
-        <Label htmlFor="damount">Amount (KES)</Label>
-        <Input id="damount" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))} disabled={busy} className="h-12 bg-elevated font-display text-lg font-bold tabular-nums" />
+        <Label htmlFor="damount" className="text-muted-foreground">Amount (KES)</Label>
+        <Input 
+          id="damount" 
+          inputMode="decimal" 
+          value={amount} 
+          onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))} 
+          disabled={busy} 
+          className="h-12 bg-elevated font-display text-lg font-bold tabular-nums border-border focus:border-primary focus:ring-primary rounded-2xl" 
+        />
         <p className="text-xs text-muted-foreground">
           Min {LIMITS.minDeposit.toLocaleString()} · Max {LIMITS.maxSinglePayout.toLocaleString()} KES
         </p>
@@ -240,7 +265,12 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
       </div>
       <div className="grid grid-cols-4 gap-2">
         {[200, 500, 1000, 5000].map((q) => (
-          <button key={q} onClick={() => setAmount(String(q))} disabled={busy} className="rounded-lg bg-elevated py-2 text-sm font-bold tabular-nums hover:bg-accent disabled:opacity-40">
+          <button 
+            key={q} 
+            onClick={() => setAmount(String(q))} 
+            disabled={busy} 
+            className="rounded-2xl bg-elevated py-2 text-sm font-bold tabular-nums transition-all hover:bg-primary/10 hover:text-primary hover:scale-105 disabled:opacity-40"
+          >
             {q}
           </button>
         ))}
@@ -248,38 +278,50 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       {submitting && stage === "idle" && (
-        <div className="rounded-xl bg-elevated p-4 text-sm">
+        <div className="rounded-2xl bg-elevated p-4 text-sm">
           <p className="flex items-center gap-2">
             <span className="size-2 animate-pulse rounded-full bg-primary" />
-            Sending STK push…
+            Sending STK push...
           </p>
         </div>
       )}
 
       {stage !== "idle" && (
-        <div className="rounded-xl bg-elevated p-4 text-sm">
+        <div className="rounded-2xl bg-elevated p-4 text-sm">
           {stage === "pushed" && <p>STK push sent — check your phone and enter your M-Pesa PIN.</p>}
           {stage === "polling" && (
             <div className="space-y-1">
               <p className="flex items-center gap-2">
                 <span className="size-2 animate-pulse rounded-full bg-primary" />
-                Waiting for M-Pesa confirmation…
+                Waiting for M-Pesa confirmation...
               </p>
               <p className="text-xs text-muted-foreground">
-                Expect a prompt from <span className="font-semibold">GROVER COMMERCE</span>
+                Expect a prompt from <span className="font-semibold text-primary">GROVER COMMERCE</span>
               </p>
               <p className="text-xs text-muted-foreground">
                 Please stay on this page until the transaction finishes processing.
               </p>
             </div>
           )}
-          {stage === "success" && <p className="font-semibold text-primary">Deposit confirmed and credited.</p>}
-          {stage === "failed" && <p className="font-semibold text-destructive">Deposit failed. No funds were taken.</p>}
+          {stage === "success" && (
+            <p className="font-semibold text-success flex items-center gap-2">
+              <CheckCircle className="size-4" /> Deposit confirmed and credited.
+            </p>
+          )}
+          {stage === "failed" && (
+            <p className="font-semibold text-destructive flex items-center gap-2">
+              <XCircle className="size-4" /> Deposit failed. No funds were taken.
+            </p>
+          )}
         </div>
       )}
 
-      <Button onClick={start} disabled={busy || invalid || phoneInvalid} className="h-12 w-full font-display font-extrabold glow-primary">
-        {busy ? "Processing…" : "Send STK push"}
+      <Button 
+        onClick={start} 
+        disabled={busy || invalid || phoneInvalid} 
+        className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-2xl"
+      >
+        {busy ? "Processing..." : "Send STK push"}
       </Button>
     </div>
   );
@@ -319,18 +361,24 @@ function WithdrawForm({
   return (
     <div className="panel-surface space-y-4 p-5">
       {isGuest && (
-        <p className="rounded-lg bg-warning/15 p-3 text-sm text-warning">
+        <p className="rounded-2xl bg-warning/15 p-3 text-sm text-warning border border-warning/20">
           Sign in to withdraw real money. This is a demo account.
         </p>
       )}
       {!isGuest && gateFailed && (
-        <p className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+        <p className="rounded-2xl bg-destructive/10 p-3 text-sm text-destructive border border-destructive/20">
           Minimum balance of KES {LIMITS.minDeposit} required to withdraw.
         </p>
       )}
       <div className="space-y-1.5">
-        <Label htmlFor="wamount">Amount (KES)</Label>
-        <Input id="wamount" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))} className="h-12 bg-elevated font-display text-lg font-bold tabular-nums" />
+        <Label htmlFor="wamount" className="text-muted-foreground">Amount (KES)</Label>
+        <Input 
+          id="wamount" 
+          inputMode="decimal" 
+          value={amount} 
+          onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))} 
+          className="h-12 bg-elevated font-display text-lg font-bold tabular-nums border-border focus:border-primary focus:ring-primary rounded-2xl" 
+        />
         <p className="text-xs text-muted-foreground">
           Min {LIMITS.minDeposit.toLocaleString()} · Max {LIMITS.maxWithdraw.toLocaleString()} KES
         </p>
@@ -343,14 +391,17 @@ function WithdrawForm({
         helperText={phone !== "" && phoneInvalid ? "Enter a valid number (07... or 01...)" : "Defaults to your signup number, but you can send to a different one"}
       />
       {error && <p className="text-sm text-destructive">{error}</p>}
-      <Button onClick={submit} disabled={loading || gateFailed || phoneInvalid} className="h-12 w-full font-display font-extrabold glow-primary">
-        {loading ? "Sending…" : "Withdraw to M-Pesa"}
+      <Button 
+        onClick={submit} 
+        disabled={loading || gateFailed || phoneInvalid} 
+        className="h-12 w-full font-display font-extrabold bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg hover:shadow-primary/30 transition-all rounded-2xl"
+      >
+        {loading ? "Sending..." : "Withdraw to M-Pesa"}
       </Button>
     </div>
   );
 }
 
-// Transaction types from the actual backend - only deposit and withdrawal
 const TYPES: { value: string; label: string }[] = [
   { value: "all", label: "All types" },
   { value: "deposit", label: "Deposit" },
@@ -392,6 +443,21 @@ function TransactionList() {
     };
   }, [type]);
 
+  // Helper to get status style
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case "completed":
+        return { icon: CheckCircle, color: "text-success", label: "Completed" };
+      case "pending":
+        return { icon: Clock, color: "text-warning", label: "Pending" };
+      case "rejected":
+      case "failed":
+        return { icon: XCircle, color: "text-destructive", label: "Failed" };
+      default:
+        return { icon: Clock, color: "text-muted-foreground", label: status };
+    }
+  };
+
   return (
     <div className="panel-surface space-y-3 p-5">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
@@ -402,10 +468,10 @@ function TransactionList() {
             setType(v);
           }}
         >
-          <SelectTrigger className="w-36 shrink-0 bg-elevated">
+          <SelectTrigger className="w-36 shrink-0 bg-elevated border-border focus:border-primary focus:ring-primary rounded-2xl">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-[#12121e] border-border">
             {TYPES.map((t) => (
               <SelectItem key={t.value} value={t.value}>
                 {t.label}
@@ -415,7 +481,7 @@ function TransactionList() {
         </Select>
       </div>
 
-      {loading && <p className="py-8 text-center text-sm text-muted-foreground">Loading…</p>}
+      {loading && <p className="py-8 text-center text-sm text-muted-foreground">Loading...</p>}
       {!loading && loadError && (
         <p className="py-8 text-center text-sm text-destructive">{loadError}</p>
       )}
@@ -425,36 +491,39 @@ function TransactionList() {
 
       <div className="space-y-1.5">
         {items.map((t) => {
-          // Only 'deposit' is a credit - 'withdrawal' is a debit
           const isCredit = t.Type === "deposit";
+          const statusInfo = getStatusStyle(t.Status);
+          const StatusIcon = statusInfo.icon;
+          
           return (
-            <div key={t.ID} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl bg-elevated/60 p-3">
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold capitalize">
-                  {t.Type}
-                  {t.MpesaReceipt ? <span className="text-muted-foreground"> · {t.MpesaReceipt}</span> : null}
-                </p>
-                <p className="truncate text-xs text-muted-foreground">
-                  {new Date(t.CreatedAt).toLocaleString("en-KE")}
-                </p>
+            <div key={t.ID} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl bg-elevated/60 p-3 border border-border/30">
+              <div className="flex items-center gap-3 min-w-0">
+                {isCredit ? (
+                  <ArrowDownCircle className="size-4 text-success shrink-0" />
+                ) : (
+                  <ArrowUpCircle className="size-4 text-destructive shrink-0" />
+                )}
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold capitalize">
+                    {t.Type}
+                    {t.MpesaReceipt ? <span className="text-muted-foreground"> · {t.MpesaReceipt}</span> : null}
+                  </p>
+                  <p className="truncate text-xs text-muted-foreground">
+                    {new Date(t.CreatedAt).toLocaleString("en-KE")}
+                  </p>
+                </div>
               </div>
               <div className="shrink-0 text-right">
-                <p className={cn("font-display font-bold tabular-nums", isCredit ? "text-primary" : "text-foreground")}>
+                <p className={cn("font-display font-bold tabular-nums", isCredit ? "text-success" : "text-foreground")}>
                   {isCredit ? "+" : "−"}
                   {formatKES(t.Amount)}
                 </p>
-                <p
-                  className={cn(
-                    "text-[10px] uppercase tracking-widest",
-                    t.Status === "completed"
-                      ? "text-muted-foreground"
-                      : t.Status === "pending"
-                        ? "text-warning"
-                        : "text-destructive",
-                  )}
-                >
-                  {t.Status}
-                </p>
+                <div className="flex items-center justify-end gap-1">
+                  <StatusIcon className={cn("size-3", statusInfo.color)} />
+                  <span className={cn("text-[10px] uppercase tracking-widest", statusInfo.color)}>
+                    {statusInfo.label}
+                  </span>
+                </div>
               </div>
             </div>
           );
