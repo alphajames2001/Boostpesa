@@ -264,7 +264,7 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
         {invalid && amount !== "" && <p className="text-xs text-destructive">Amount outside deposit limits</p>}
       </div>
       <div className="grid grid-cols-4 gap-2">
-        {[200, 500, 1000, 5000].map((q) => (
+        {[300, 500, 1000, 5000].map((q) => (
           <button 
             key={q} 
             onClick={() => setAmount(String(q))} 
@@ -294,9 +294,6 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
               <p className="flex items-center gap-2">
                 <span className="size-2 animate-pulse rounded-full bg-primary" />
                 Waiting for M-Pesa confirmation...
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Expect a prompt from <span className="font-semibold text-primary">GROVER COMMERCE</span>
               </p>
               <p className="text-xs text-muted-foreground">
                 Please stay on this page until the transaction finishes processing.
