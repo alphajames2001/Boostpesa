@@ -65,10 +65,10 @@ export interface WithdrawResponse {
 }
 
 export const WALLET_LIMITS = {
-  minDepositKES: 200, // wallet.go: minDepositKES
-  maxWithdrawalKES: 100000, // wallet.go: maxWithdrawalKES
-  minBetKES: 10, // game.go: minBetKES
-  maxCashoutKES: 1000000, // game.go: maxCashoutKES
+  minDepositKES: 300, //  minDepositKES
+  maxWithdrawalKES: 100000, //  maxWithdrawalKES
+  minBetKES: 100, // minBetKES
+  maxCashoutKES: 1000000, //  maxCashoutKES
 } as const;
 
 export const walletApi = {
