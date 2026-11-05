@@ -352,7 +352,7 @@ function WithdrawForm({
     const res = await walletApi.withdraw(amt, `254${phone}`);
     setLoading(false);
     if (!res.ok) return setError(res.error);
-    toast.success("Request has been received, withdrawals will be processed within 24-48 hours");
+    toast.success("Request has been received, withdrawal is being processed...");
   }
 
   return (
