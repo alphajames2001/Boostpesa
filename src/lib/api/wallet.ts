@@ -65,7 +65,7 @@ export interface WithdrawResponse {
 }
 
 export const WALLET_LIMITS = {
-  minDepositKES: 300, //  minDepositKES
+  minDepositKES: 200, //  minDepositKES
   maxWithdrawalKES: 100000, //  maxWithdrawalKES
   minBetKES: 100, // minBetKES
   maxCashoutKES: 1000000, //  maxCashoutKES
