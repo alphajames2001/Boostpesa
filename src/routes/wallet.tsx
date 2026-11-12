@@ -264,7 +264,7 @@ function DepositForm({ defaultPhone }: { defaultPhone: string }) {
         {invalid && amount !== "" && <p className="text-xs text-destructive">Amount outside deposit limits</p>}
       </div>
       <div className="grid grid-cols-4 gap-2">
-        {[300, 500, 1000, 5000].map((q) => (
+        {[200, 500, 1000, 5000].map((q) => (
           <button 
             key={q} 
             onClick={() => setAmount(String(q))} 
